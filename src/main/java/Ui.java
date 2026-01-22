@@ -1,13 +1,15 @@
 /**
- * Ui class handles all user intraction
+ * Ui class handles all user interaction
  */
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Ui {
     private static final String LOGO = " /\\_/\\\n"+ 
                                        "( o.o )\n"+
                                        " > ^ <";
 
+    private static final String LINE = "==============================";
     private Scanner scanner = new Scanner(System.in);
 
     public void showWelcome() {
@@ -17,7 +19,7 @@ public class Ui {
 
     public void showGoodbye() {
         System.out.println(LOGO);
-        System.out.println("Bye ^-^ . Hope to see you again soon!");
+        System.out.println("Bye ^-^ . Lets play again another time!");
     }
 
     public String readUserInput() {
@@ -26,7 +28,17 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public void echoMessage(String msg) {
-        System.out.println(msg);
+    public void addTodoAck(String msg) {
+        System.out.println(LINE);
+        System.out.println("Added: " + msg);
+        System.out.println(LINE);
+    }
+
+    public void showTodoList(ArrayList<Todo> arr) {
+        System.out.println(LINE);
+        for (int i = 1; i <= arr.size(); i++) {
+            System.out.println(i + ". " + arr.get(i-1).toString());
+        }
+        System.out.println(LINE);
     }
 }
