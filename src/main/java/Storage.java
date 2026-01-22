@@ -4,17 +4,17 @@
 import java.util.ArrayList;
 
 public class Storage{
-    private ArrayList<Todo> todoList;
+    private ArrayList<Task> taskList;
 
     public Storage() {
-        todoList = new ArrayList<>();
+        taskList = new ArrayList<>();
     }
 
-    public void addTodo(Todo task) {
-        todoList.add(task);
+    public void addTask(Task task) {
+        taskList.add(task);
     }
 
-    public ArrayList<Todo> getTodoList() {
-        return this.todoList;
+    public ArrayList<Task> getTaskList() {
+        return this.taskList;
     }
 }
