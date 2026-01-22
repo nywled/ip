@@ -11,8 +11,12 @@ public class Task {
         this.isComplete = false;
     }
 
-    public void toggleCompleteStatus(){
-        isComplete = !isComplete;
+    public void SetComplete(){
+        isComplete = true;
+    }
+
+    public void SetIncomplete() {
+        isComplete = false;
     }
 
     @Override

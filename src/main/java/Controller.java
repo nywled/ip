@@ -1,14 +1,16 @@
 /**
  * Controller class handles all app logic
  */
-public class Controller {
+public class Controller{
     private final Ui ui;
-    private Storage storage;
+    private final Storage storage;
+    private final Parser parser;
     private boolean isExit;
 
     public Controller(Ui ui) {
         this.ui = ui;
         this.storage = new Storage();
+        this.parser = new Parser();
         this.isExit = false;
     }
 
@@ -17,19 +19,37 @@ public class Controller {
 
         while(!isExit) {
             String userInput = ui.readUserInput().trim();
-            while (userInput.equals("")) { //Handle empty user input
-                userInput = ui.readUserInput();
-            }
+            Command command = parser.parse(userInput);
 
-            if (userInput.trim().toLowerCase().equals("bye")) {
+            if (command.getAction().equals("EXIT")) {
                 isExit = true;
                 ui.showGoodbye();
-            } else if (userInput.trim().toLowerCase().equals("list")) {
-                ui.showTodoList(storage.getTodoList());
-            } else {
-                Todo newTodo = new Todo(userInput);
-                storage.addTodo(newTodo);
-                ui.addTodoAck(userInput);
+            }
+            if (command.getAction().equals("LIST")) {
+                ui.showTaskList(storage.getTaskList());
+            }
+            if (command.getAction().equals("MARK")) {
+                try {
+                    Task task = storage.getTask(Integer.parseInt(command.getArgs()));
+                    task.SetComplete();
+                    ui.showMarkTask(task);
+                } catch (IndexOutOfBoundsException e) {
+                    ui.showInvalidCmdMsg();
+                }
+            }
+            if (command.getAction().equals("UNMARK")) {
+                try {
+                    Task task = storage.getTask(Integer.parseInt(command.getArgs()));
+                    task.SetIncomplete();
+                    ui.showUnmarkTask(task);
+                } catch (IndexOutOfBoundsException e) {
+                    ui.showInvalidCmdMsg();
+                }
+            }
+            if (command.getAction().equals("ADD")) {
+                Task newTask = new Task(command.getArgs());
+                storage.addTask(newTask);
+                ui.addTaskAck(command.getArgs());
             }
         }
     }

@@ -14,6 +14,10 @@ public class Storage{
         taskList.add(task);
     }
 
+    public Task getTask(int i){
+        return taskList.get(i-1);
+    }
+
     public ArrayList<Task> getTaskList() {
         return this.taskList;
     }
