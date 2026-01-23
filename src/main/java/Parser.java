@@ -1,15 +1,18 @@
 /**
  * Parser translate the user input into commands to execute
  */
+import exceptions.InvalidCommandException;
+import exceptions.InvalidArgumentException;
+
 public class Parser {
-    public Command parse(String cmd) {
+    public Command parse(String cmd) throws InvalidCommandException, InvalidArgumentException{
         //Handle empty input
         if (cmd == null || cmd.trim().length() == 0) {
-            return new Command("INVALID", null);
+            throw new InvalidCommandException();
         }
 
         //Split the command up to extract main word
-        String[] cmdTokens = cmd.split(" ");
+        String[] cmdTokens = cmd.trim().split(" ");
         String key = cmdTokens[0].toLowerCase();
 
         //Match the key
@@ -17,8 +20,9 @@ public class Parser {
         case "list":
             if (cmdTokens.length == 1) {
                 return new Command("LIST", null);
-            } 
-            return new Command("INVALID", null);
+            } else {
+                throw new InvalidArgumentException("list");
+            }
         case "mark":
             if (cmdTokens.length == 2) {
                 try {
@@ -26,10 +30,11 @@ public class Parser {
                     String[] args = new String[]{cmdTokens[1]};
                     return new Command("MARK", args);
                 } catch (NumberFormatException e){
-                    //Invalid param --> fall through to default
+                    throw new InvalidArgumentException("mark <int>");
                 }
-            } 
-            return new Command("INVALID", null);
+            } else {
+                throw new InvalidArgumentException("mark <int>");
+            }
         case "unmark":
             if (cmdTokens.length == 2) {
                 try {
@@ -37,53 +42,59 @@ public class Parser {
                     String[] args = new String[]{cmdTokens[1]};
                     return new Command("UNMARK", args);
                 } catch (NumberFormatException e){
-                    //Invalid param --> fall through to default
+                    throw new InvalidArgumentException("unmark <int>");
                 }
+            } else {
+                throw new InvalidArgumentException("unmark <int>");
             }
-            return new Command("INVALID", null);
         case "bye":
             if (cmdTokens.length == 1) {
                 return new Command("EXIT", null);
             }
-            return new Command("INVALID", null);
+            throw new InvalidArgumentException("bye");
         case "todo":
             if (cmdTokens.length >= 2) { //todo <title>
-                String title = cmd.substring(cmd.indexOf(" ") + 1); //only take <title>
+                String title = cmd.substring(cmd.indexOf(" ") + 1).trim(); //only take <title>
+                if (title.isEmpty()) {
+                    throw new InvalidArgumentException("todo <task>");
+                }
                 return new Command("TODO", new String[]{title});
             }
-            return new Command("INVALID", null);
+            throw new InvalidArgumentException("todo <task>");
         case "deadline":
             if (cmd.contains(" /by ")) { //deadline <title> /by <date>
                 String[] parts = cmd.split(" /by ", 2);
                 if (parts.length == 2 && parts[0].trim().length() > 8) {
                     String title = parts[0].substring(parts[0].indexOf(" ") + 1).trim();
                     String by = parts[1].trim();
+                    if (title.isEmpty() || by.isEmpty()) {
+                        throw new InvalidArgumentException("deadline <task> /by <date>");
+                    }
                     return new Command("DEADLINE", new String[]{title, by});
                 }
             }
-            return new Command("INVALID", null);
+            throw new InvalidArgumentException("deadline <task> /by <date>");
         case "event":
-            try {
-                if (cmd.contains(" /from ") && cmd.contains(" /to ")) { //event <title> /from <time> /to <time>
-                    String[] firstSplit = cmd.split(" /from ", 2);
+            if (cmd.contains(" /from ") && cmd.contains(" /to ")) { //event <title> /from <time> /to <time>
+                String[] firstSplit = cmd.split(" /from ", 2);
 
-                    // Extract title
-                    String title = firstSplit[0].substring(firstSplit[0].indexOf(" ") + 1).trim();
+                // Extract title
+                String title = firstSplit[0].substring(firstSplit[0].indexOf(" ") + 1).trim();
 
-                    String[] secondSplit = firstSplit[1].split(" /to ", 2);
+                String[] secondSplit = firstSplit[1].split(" /to ", 2);
 
-                    // Extract times
-                    String start = secondSplit[0].trim();
-                    String end = secondSplit[1].trim();
-
-                    return new Command("EVENT", new String[]{title, start, end});
+                // Extract times
+                String start = secondSplit[0].trim();
+                String end = secondSplit[1].trim();
+                
+                if (title.isEmpty() || start.isEmpty() || end.isEmpty()){
+                    throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
                 }
-            } catch (Exception e) {
-                //Invalid input --> fall to default
+                return new Command("EVENT", new String[]{title, start, end});
             }
-            return new Command("INVALID", null);
+            throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
         default:
-            return new Command("INVALID", null);
+            throw new InvalidCommandException();
         }
     }
 }

@@ -62,7 +62,7 @@ public class Ui {
         System.out.println(LINE);
     }
 
-    public void showInvalidCmdMsg() {
-        System.out.println("Im sorry >.< but I am unable to help you. \n Would you like to repeat for Momo again?");
+    public void showErrMsg(String msg) {
+        System.out.println(msg);
     }
 }
