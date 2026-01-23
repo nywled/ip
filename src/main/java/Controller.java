@@ -1,6 +1,8 @@
 /**
- * Controller class handles all app logic
+ * Controller class handles all execution
  */
+import tasks.*;
+
 public class Controller{
     private final Ui ui;
     private final Storage storage;
@@ -20,36 +22,46 @@ public class Controller{
         while(!isExit) {
             String userInput = ui.readUserInput().trim();
             Command command = parser.parse(userInput);
-
+            //Exit of prog
             if (command.getAction().equals("EXIT")) {
                 isExit = true;
                 ui.showGoodbye();
-            }
-            if (command.getAction().equals("LIST")) {
-                ui.showTaskList(storage.getTaskList());
-            }
-            if (command.getAction().equals("MARK")) {
+            } else if (command.getAction().equals("LIST")) { //List all task
+                ui.showTaskList(storage);
+            } else if (command.getAction().equals("MARK")) { //Mark a task complete
                 try {
-                    Task task = storage.getTask(Integer.parseInt(command.getArgs()));
-                    task.SetComplete();
+                    int index = Integer.parseInt(command.getArgs()[0]) - 1;
+                    Task task = storage.getTask(index);
+                    task.setComplete();
                     ui.showMarkTask(task);
                 } catch (IndexOutOfBoundsException e) {
                     ui.showInvalidCmdMsg();
                 }
-            }
-            if (command.getAction().equals("UNMARK")) {
+            } else if (command.getAction().equals("UNMARK")) { //Mark a task incomplete
                 try {
-                    Task task = storage.getTask(Integer.parseInt(command.getArgs()));
-                    task.SetIncomplete();
+                    int index = Integer.parseInt(command.getArgs()[0]) - 1;
+                    Task task = storage.getTask(index);
+                    task.setIncomplete();
                     ui.showUnmarkTask(task);
                 } catch (IndexOutOfBoundsException e) {
                     ui.showInvalidCmdMsg();
                 }
-            }
-            if (command.getAction().equals("ADD")) {
-                Task newTask = new Task(command.getArgs());
+            } else if (command.getAction().equals("TODO")) { //Add a new Todo/Event/Deadline
+                Todo newTask = new Todo(command.getArgs()[0]);
                 storage.addTask(newTask);
-                ui.addTaskAck(command.getArgs());
+                ui.addTaskAck(newTask, storage.getTaskListSize());
+            } else if (command.getAction().equals("EVENT")) {
+                Event newTask = new Event(command.getArgs()[0],command.getArgs()[1],command.getArgs()[2]);
+                storage.addTask(newTask);
+                ui.addTaskAck(newTask, storage.getTaskListSize());
+            } else if (command.getAction().equals("DEADLINE")) {
+                Deadline newTask = new Deadline(command.getArgs()[0],command.getArgs()[1]);
+                storage.addTask(newTask);
+                ui.addTaskAck(newTask, storage.getTaskListSize());
+            } else if (command.getAction().equals("INVALID")) {//All other invalid commands
+                ui.showInvalidCmdMsg();
+            } else {
+                ui.showInvalidCmdMsg();
             }
         }
     }

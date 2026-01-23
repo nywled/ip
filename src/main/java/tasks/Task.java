@@ -1,6 +1,7 @@
 /**
  * Class containing all information of a todo task
  */
+package tasks;
 
 public class Task {
     private String title;
@@ -11,23 +12,20 @@ public class Task {
         this.isComplete = false;
     }
 
-    public void SetComplete(){
+    public String getStatusIcon() {
+        return (isComplete ? "X" : " ");
+    }
+
+    public void setComplete(){
         isComplete = true;
     }
 
-    public void SetIncomplete() {
+    public void setIncomplete() {
         isComplete = false;
     }
 
     @Override
     public String toString() {
-        StringBuilder msg = new StringBuilder();
-        if (isComplete == true) {
-            msg.append("[X] ");
-        } else {
-            msg.append("[ ] ");
-        }
-        msg.append(this.title);
-        return msg.toString();
+        return ("[" + this.getStatusIcon() + "] " + title);
     }
 }

@@ -3,9 +3,9 @@
  */
 public class Command {
     private final String action;
-    private final String args;
+    private final String[] args;
 
-    public Command(String action, String args){
+    public Command(String action, String[] args){
         this.action = action;
         this.args = args;
     }
@@ -14,7 +14,7 @@ public class Command {
         return this.action;
     }
 
-    public String getArgs() {
+    public String[] getArgs() {
         return this.args;
     }
 

@@ -1,8 +1,12 @@
 /**
  * Ui class handles all user interaction
+ * This class is responsible for displaying outputs
+ * and getting user input.
  */
 import java.util.Scanner;
 import java.util.ArrayList;
+
+import tasks.*;
 
 public class Ui {
     private static final String LOGO = " /\\_/\\\n"+ 
@@ -27,17 +31,19 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public void addTaskAck(String msg) {
+    public void addTaskAck(Task task, int size) {
         System.out.println(LINE);
-        System.out.println("Added: " + msg);
+        System.out.println("Got it. I've added this task:");
+        System.out.println(task.toString());
+        System.out.println("Now you have " + size + " tasks in the list.");
         System.out.println(LINE);
     }
 
-    public void showTaskList(ArrayList<Task> arr) {
+    public void showTaskList(Storage storage) {
         System.out.println(LINE);
         System.out.println("Jiayous! Here are the tasks in your list:");
-        for (int i = 1; i <= arr.size(); i++) {
-            System.out.println(i + "." + arr.get(i-1).toString());
+        for (int i = 1; i <= storage.getTaskListSize(); i++) {
+            System.out.println(i + "." + storage.getTask(i-1).toString());
         }
         System.out.println(LINE);
     }
@@ -57,6 +63,6 @@ public class Ui {
     }
 
     public void showInvalidCmdMsg() {
-        System.out.println("Invalid command! Would you like to repeat for Momo again?");
+        System.out.println("Im sorry >.< but I am unable to help you. \n Would you like to repeat for Momo again?");
     }
 }

@@ -2,6 +2,7 @@
  * Storage class handles all storage for the chatbot
  */
 import java.util.ArrayList;
+import tasks.Task;
 
 public class Storage{
     private ArrayList<Task> taskList;
@@ -15,10 +16,10 @@ public class Storage{
     }
 
     public Task getTask(int i){
-        return taskList.get(i-1);
+        return taskList.get(i);
     }
 
-    public ArrayList<Task> getTaskList() {
-        return this.taskList;
+    public int getTaskListSize() {
+        return taskList.size();
     }
 }
