@@ -1,4 +1,7 @@
-package exceptions;
+/**
+ * Main exception class
+ */
+package exception;
 
 public class MomoException extends Exception {
     public MomoException(String message) {

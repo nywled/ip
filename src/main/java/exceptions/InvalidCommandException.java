@@ -1,3 +1,6 @@
+/**
+ * Exception class to handle unknown commands
+ */
 package exceptions;
 
 public class InvalidCommandException extends MomoException {
