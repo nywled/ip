@@ -14,6 +14,7 @@ public class Ui {
                                        " > ^ <";
 
     private static final String LINE = "==============================";
+    private final Scanner scanner = new Scanner(System.in);
 
     public void showWelcome() {
         System.out.println(LOGO);
@@ -26,7 +27,6 @@ public class Ui {
     }
 
     public String readUserInput() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("\n>> ");
         return scanner.nextLine();
     }
