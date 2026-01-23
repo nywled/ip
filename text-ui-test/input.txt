@@ -1,0 +1,15 @@
+list
+todo feed momo
+deadline 2103 iP proj /by Fri 4pm
+event work /from Wed 3pm /to Wed 4.30pm
+todo take a shower
+mark 1
+unmark 1
+event dinner appointment /from 7pm /to 9pm
+todo
+deadline PS0 quiz
+mark 10
+unmark 0
+event meeting with friends /to 9pm
+todo UI test
+bye
