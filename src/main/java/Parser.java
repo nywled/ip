@@ -29,7 +29,7 @@ public class Parser {
                     Integer.parseInt(cmdTokens[1]);
                     String[] args = new String[]{cmdTokens[1]};
                     return new Command("MARK", args);
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException err){
                     throw new InvalidArgumentException("mark <int>");
                 }
             } else {
@@ -41,11 +41,23 @@ public class Parser {
                     Integer.parseInt(cmdTokens[1]);
                     String[] args = new String[]{cmdTokens[1]};
                     return new Command("UNMARK", args);
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException err){
                     throw new InvalidArgumentException("unmark <int>");
                 }
             } else {
                 throw new InvalidArgumentException("unmark <int>");
+            }
+        case "delete":
+            if (cmdTokens.length == 2) {
+                try {
+                    Integer.parseInt(cmdTokens[1]);
+                    String[] args = new String[]{cmdTokens[1]};
+                    return new Command("DELETE", args);
+                } catch (NumberFormatException err){
+                    throw new InvalidArgumentException("delete <int>");
+                }
+            } else {
+                throw new InvalidArgumentException("delete <int>");
             }
         case "bye":
             if (cmdTokens.length == 1) {

@@ -15,6 +15,10 @@ public class Storage{
         taskList.add(task);
     }
 
+    public Task removeTask(int i) {
+        return taskList.remove(i);
+    }
+
     public Task getTask(int i){
         return taskList.get(i);
     }

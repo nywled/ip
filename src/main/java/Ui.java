@@ -62,6 +62,14 @@ public class Ui {
         System.out.println(LINE);
     }
 
+    public void showDeleteTask(Task task, int size) {
+        System.out.println(LINE);
+        System.out.println("Ok, I've removed this task:");
+        System.out.println(task.toString());
+        System.out.println("Now you have " + size + " tasks in the list.");
+        System.out.println(LINE);
+    }
+
     public void showErrMsg(String msg) {
         System.out.println(msg);
     }

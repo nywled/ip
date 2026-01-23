@@ -48,6 +48,13 @@ public class Controller{
                     Task task = storage.getTask(index);
                     task.setIncomplete();
                     ui.showUnmarkTask(task);
+                } else if (command.getAction().equals("DELETE")) { //delet a task
+                    int index = Integer.parseInt(command.getArgs()[0]) - 1;
+                    if (index < 0 || index >= storage.getTaskListSize()) {
+                        throw new InvalidArgumentException("delete <int>. Selection out of range");
+                    }
+                    Task task = storage.removeTask(index);
+                    ui.showDeleteTask(task, storage.getTaskListSize());
                 } else if (command.getAction().equals("TODO")) { //Add a new Todo/Event/Deadline
                     Todo newTask = new Todo(command.getArgs()[0]);
                     storage.addTask(newTask);
