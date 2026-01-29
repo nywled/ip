@@ -9,6 +9,7 @@ import tasks.Event;
 import exceptions.InvalidCommandException;
 import exceptions.InvalidArgumentException;
 import exceptions.StorageException;
+import exceptions.InvalidDateTimeException;
 
 public class Controller{
     private final Ui ui;
@@ -72,18 +73,20 @@ public class Controller{
                     ui.addTaskAck(newTask, taskManager.getTaskListSize());
                 //EVENT
                 } else if (command.getAction().equals("EVENT")) {
-                    Event newTask = new Event(command.getArgs()[0],command.getArgs()[1],command.getArgs()[2]);
+                    Event newTask = new Event(command.getArgs()[0],command.getTimeArgs()[0],command.getTimeArgs()[1]);
                     taskManager.addTask(newTask);
                     ui.addTaskAck(newTask, taskManager.getTaskListSize());
                 //DEADLINE
                 } else if (command.getAction().equals("DEADLINE")) {
-                    Deadline newTask = new Deadline(command.getArgs()[0],command.getArgs()[1]);
+                    Deadline newTask = new Deadline(command.getArgs()[0],command.getTimeArgs()[0]);
                     taskManager.addTask(newTask);
                     ui.addTaskAck(newTask, taskManager.getTaskListSize());
                 //ERROR HANDLING
                 } else {
                     throw new InvalidCommandException();
                 }
+            }  catch (InvalidDateTimeException e) {
+                ui.showErrMsg(e.getMessage());
             } catch (InvalidCommandException err) {
                 ui.showErrMsg(err.getMessage());
             } catch (InvalidArgumentException err) {
@@ -93,7 +96,6 @@ public class Controller{
                 ui.showFatalErrMsg();
                 isExit = true;
             }
-            
         }
     }
 }
