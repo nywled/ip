@@ -3,10 +3,10 @@
  * This class is responsible for displaying outputs
  * and getting user input.
  */
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-import tasks.*;
+import tasks.Task;
 
 public class Ui {
     private static final String LOGO = " /\\_/\\\n"+ 
@@ -39,11 +39,11 @@ public class Ui {
         System.out.println(LINE);
     }
 
-    public void showTaskList(Storage storage) {
+    public void showTaskList(TaskManager taskManager) {
         System.out.println(LINE);
         System.out.println("Jiayous! Here are the tasks in your list:");
-        for (int i = 1; i <= storage.getTaskListSize(); i++) {
-            System.out.println(i + "." + storage.getTask(i-1).toString());
+        for (int i = 1; i <= taskManager.getTaskListSize(); i++) {
+            System.out.println(i + "." + taskManager.getTask(i-1).toString());
         }
         System.out.println(LINE);
     }
@@ -72,5 +72,9 @@ public class Ui {
 
     public void showErrMsg(String msg) {
         System.out.println(msg);
+    }
+
+    public void showFatalErrMsg() {
+        System.out.println("WAAAAA WHATS HAPPENING???!!!");
     }
 }

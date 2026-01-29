@@ -7,9 +7,14 @@ public class Task {
     private String title;
     private boolean isComplete;
 
-    public Task(String title){
+    public Task(String title) {
         this.title = title;
         this.isComplete = false;
+    }
+
+    public Task(String title, boolean isComplete){
+        this.title = title;
+        this.isComplete = isComplete;
     }
 
     public String getStatusIcon() {
@@ -22,6 +27,11 @@ public class Task {
 
     public void setIncomplete() {
         isComplete = false;
+    }
+
+    public String toStorageString() {
+        int status = isComplete ? 1 : 0;
+        return ("|" + status + "|" + this.title);
     }
 
     @Override

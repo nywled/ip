@@ -1,9 +1,9 @@
 /**
  * Main exception class
  */
-package exception;
+package exceptions;
 
-public class MomoException extends Exception {
+public class MomoException extends RuntimeException {
     public MomoException(String message) {
         super(message);
     }
