@@ -4,11 +4,13 @@
 package tasks;
 
 public class Todo extends Task {
-    protected String startDate;
-    protected String endDate;
-
     public Todo(String title) {
         super(title);
+    }
+
+    @Override
+    public String toStorageString() {
+        return ("T" + super.toStorageString());
     }
 
     @Override

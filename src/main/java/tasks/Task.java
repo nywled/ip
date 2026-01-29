@@ -24,6 +24,16 @@ public class Task {
         isComplete = false;
     }
 
+    public String toStorageString() {
+        int status;
+        if (this.isComplete == true) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        return ("|" + status + "|" + this.title);
+    }
+
     @Override
     public String toString() {
         return ("[" + this.getStatusIcon() + "] " + title);
