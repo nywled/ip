@@ -1,11 +1,24 @@
 /**
  * Parser translate the user input into commands to execute
  */
+
+package parser;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import commands.Command;
+import commands.ListCommand;
+import commands.ExitCommand;
+import commands.MarkCommand;
+import commands.UnmarkCommand;
+import commands.DeleteCommand;
+import commands.TodoCommand;
+import commands.DeadlineCommand;
+import commands.EventCommand;
 
 import exceptions.MomoException;
 import exceptions.InvalidCommandException;
@@ -20,74 +33,72 @@ public class Parser {
         }
 
         //Split the command up to extract main word
-        String[] cmdTokens = cmd.trim().split(" ");
+        String[] cmdTokens = cmd.trim().split("\\s+");
         String key = cmdTokens[0].toLowerCase();
 
-        switch(key){
+        //Enum matching
+        CommandType type;
+        try {
+            type = CommandType.valueOf(key.toUpperCase());
+        } catch (IllegalArgumentException err) {
+            throw new InvalidCommandException();
+        }
+
+        switch(type){
         //LIST
-        case "list":
+        case LIST:
             if (cmdTokens.length == 1) {
-                return new Command("LIST", null);
-            } else {
-                throw new InvalidArgumentException("list");
-            }
+                return new ListCommand();
+            } 
+            throw new InvalidArgumentException("list");
         //MARK
-        case "mark":
-            if (cmdTokens.length == 2) {
-                try {
-                    Integer.parseInt(cmdTokens[1]);
-                    String[] args = new String[]{cmdTokens[1]};
-                    return new Command("MARK", args);
-                } catch (NumberFormatException err){
-                    throw new InvalidArgumentException("mark <int>");
-                }
-            } else {
+        case MARK:
+            if (cmdTokens.length != 2) {
+                throw new InvalidArgumentException("mark <int>");
+            }
+            try {
+                return new MarkCommand(Integer.parseInt(cmdTokens[1]));
+            } catch (NumberFormatException err) {
                 throw new InvalidArgumentException("mark <int>");
             }
         //UNMARK
-        case "unmark":
-            if (cmdTokens.length == 2) {
-                try {
-                    Integer.parseInt(cmdTokens[1]);
-                    String[] args = new String[]{cmdTokens[1]};
-                    return new Command("UNMARK", args);
-                } catch (NumberFormatException err){
-                    throw new InvalidArgumentException("unmark <int>");
-                }
-            } else {
+        case UNMARK:
+            if (cmdTokens.length != 2) {
+                throw new InvalidArgumentException("unmark <int>");
+            }
+            try {
+                return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
+            } catch (NumberFormatException err){
                 throw new InvalidArgumentException("unmark <int>");
             }
         //DELETE
-        case "delete":
-            if (cmdTokens.length == 2) {
-                try {
-                    Integer.parseInt(cmdTokens[1]);
-                    String[] args = new String[]{cmdTokens[1]};
-                    return new Command("DELETE", args);
-                } catch (NumberFormatException err){
-                    throw new InvalidArgumentException("delete <int>");
-                }
-            } else {
+        case DELETE:
+            if (cmdTokens.length != 2) {
+                throw new InvalidArgumentException("delete <int>");
+            }
+            try {
+                return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
+            } catch (NumberFormatException err){
                 throw new InvalidArgumentException("delete <int>");
             }
         //BYE
-        case "bye":
+        case BYE:
             if (cmdTokens.length == 1) {
-                return new Command("EXIT", null);
+                return new ExitCommand();
             }
             throw new InvalidArgumentException("bye");
         //TODO
-        case "todo":
+        case TODO:
             if (cmdTokens.length >= 2) { //todo <title>
-                String title = cmd.substring(cmd.indexOf(" ") + 1).trim(); //only take <title>
+                String title = cmd.substring(cmd.indexOf("\\s+") + 1).trim(); //only take <title>
                 if (title.isEmpty()) {
                     throw new InvalidArgumentException("todo <task>");
                 }
-                return new Command("TODO", new String[]{title});
+                return new TodoCommand(title);
             }
             throw new InvalidArgumentException("todo <task>");
         //DEADLINE
-        case "deadline":
+        case DEADLINE:
             if (cmd.contains(" /by ")) { //deadline <title> /by <date>
                 String[] parts = cmd.split(" /by ", 2);
                 if (parts.length == 2 && parts[0].trim().length() > 8) {
@@ -97,12 +108,12 @@ public class Parser {
                         throw new InvalidArgumentException("deadline <task> /by <date>");
                     }
                     LocalDateTime byDateTime = parseUserDateTime(by);
-                    return new Command("DEADLINE", new String[]{title}, new LocalDateTime[]{byDateTime});
+                    return new DeadlineCommand(title, byDateTime);
                 }
             }
             throw new InvalidArgumentException("deadline <task> /by <date>");
         //EVENT
-        case "event":
+        case EVENT:
             if (cmd.contains(" /from ") && cmd.contains(" /to ")) { //event <title> /from <time> /to <time>
                 String[] firstSplit = cmd.split(" /from ", 2);
 
@@ -120,7 +131,7 @@ public class Parser {
                 }
                 LocalDateTime startDateTime = parseUserDateTime(start);
                 LocalDateTime endDateTime = parseUserDateTime(end);
-                return new Command("EVENT", new String[]{title},new LocalDateTime[]{startDateTime, endDateTime});
+                return new EventCommand(title, startDateTime, endDateTime);
             }
             throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
         //DEFAULT
@@ -130,40 +141,40 @@ public class Parser {
     }
 
     private LocalDateTime parseUserDateTime(String input) throws InvalidDateTimeException {
-    String x = input.trim();
-    if (x.isEmpty()) {
-        throw new InvalidDateTimeException();
-    }
-
-    // date-only: yyyy-MM-dd
-    try {
-        LocalDate d = LocalDate.parse(x, DateTimeFormatter.ISO_LOCAL_DATE);
-        return d.atStartOfDay();
-    } catch (DateTimeParseException ignored) {
-        // continue
-    }
-
-    // date and time: yyyy-MM-dd HHmm
-    try {
-        String[] tokens = x.split("\\s+");
-        if (tokens.length != 2) {
+        String x = input.trim();
+        if (x.isEmpty()) {
             throw new InvalidDateTimeException();
         }
 
-        LocalDate date = LocalDate.parse(tokens[0], DateTimeFormatter.ISO_LOCAL_DATE);
-
-        String t = tokens[1];
-        if (t.length() != 4) {
-            throw new InvalidDateTimeException();
+        // date-only: yyyy-MM-dd
+        try {
+            LocalDate d = LocalDate.parse(x, DateTimeFormatter.ISO_LOCAL_DATE);
+            return d.atStartOfDay();
+        } catch (DateTimeParseException ignored) {
+            // continue
         }
 
-        int hh = Integer.parseInt(t.substring(0, 2));
-        int mm = Integer.parseInt(t.substring(2, 4));
-        LocalTime time = LocalTime.of(hh, mm); // validates time range
+        // date and time: yyyy-MM-dd HHmm
+        try {
+            String[] tokens = x.split("\\s+");
+            if (tokens.length != 2) {
+                throw new InvalidDateTimeException();
+            }
 
-        return LocalDateTime.of(date, time);
-    } catch (RuntimeException err) {
-        throw new InvalidDateTimeException();
+            LocalDate date = LocalDate.parse(tokens[0], DateTimeFormatter.ISO_LOCAL_DATE);
+
+            String t = tokens[1];
+            if (t.length() != 4) {
+                throw new InvalidDateTimeException();
+            }
+
+            int hh = Integer.parseInt(t.substring(0, 2));
+            int mm = Integer.parseInt(t.substring(2, 4));
+            LocalTime time = LocalTime.of(hh, mm); // validates time range
+
+            return LocalDateTime.of(date, time);
+        } catch (RuntimeException err) {
+            throw new InvalidDateTimeException();
+        }
     }
-}
 }
