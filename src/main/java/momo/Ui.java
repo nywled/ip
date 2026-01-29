@@ -3,6 +3,8 @@
  * This class is responsible for displaying outputs
  * and getting user input.
  */
+package momo;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
