@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import java.util.ArrayList;
 
 import tasks.Task;
@@ -94,13 +97,24 @@ public class Storage {
             if (tokens.length < 4) {
                 throw new StorageException("Corrupted deadline line: " + ptask);
             }
-            task = new Deadline(title, tokens[3]);
+            try {
+                LocalDateTime dueDate = LocalDateTime.parse(tokens[3]);
+                task = new Deadline(title, dueDate);
+            } catch (DateTimeParseException err) {
+                throw new StorageException("Corrupted deadline date/time: " + ptask);
+            }
             break;
         case "E":
             if (tokens.length < 5) {
                 throw new StorageException("Corrupted event line: " + ptask);
             }
-            task = new Event(title, tokens[3], tokens[4]);
+            try {
+                LocalDateTime startDate = LocalDateTime.parse(tokens[3]);
+                LocalDateTime endDate = LocalDateTime.parse(tokens[4]);
+                task = new Event(title, startDate, endDate);
+            } catch (DateTimeParseException err) {
+                throw new StorageException("Corrupted deadline date/time: " + ptask);
+            }
             break;
         default:
             throw new StorageException("Unknown task type: " + ptask);
