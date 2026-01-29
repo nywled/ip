@@ -13,6 +13,12 @@ public class Event extends Task {
         this.endDate = endDate;
     }
 
+    public Event(String title, boolean isComplete, String startDate, String endDate) {
+        super(title, isComplete);
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     @Override
     public String toStorageString() {
         return ("E" + super.toStorageString() + "|" + this.startDate + "|" + this.endDate);

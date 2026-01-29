@@ -4,8 +4,13 @@
 package tasks;
 
 public class Todo extends Task {
+
     public Todo(String title) {
         super(title);
+    }
+
+    public Todo(String title, boolean isComplete) {
+        super(title, isComplete);
     }
 
     @Override
