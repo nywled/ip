@@ -1,7 +1,7 @@
 /**
  * Exception class to handle storage exceptions
  */
-package exceptions;
+package momo.exceptions;
 
 public class StorageException extends MomoException {
 

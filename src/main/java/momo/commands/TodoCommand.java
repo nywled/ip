@@ -1,13 +1,12 @@
-package commands;
+package momo.commands;
 
-import momo.TaskManager;
-import momo.Ui;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
+import momo.tasks.Task;
+import momo.tasks.Todo;
 
-import tasks.Task;
-import tasks.Todo;
-
-import exceptions.MomoException;
-import exceptions.InvalidArgumentException;
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidArgumentException;
 
 public class TodoCommand extends Command {
     private final String title;

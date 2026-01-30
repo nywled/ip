@@ -1,12 +1,11 @@
-package commands;
+package momo.commands;
 
-import momo.TaskManager;
-import momo.Ui;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
+import momo.tasks.Task;
 
-import tasks.Task;
-
-import exceptions.MomoException;
-import exceptions.InvalidArgumentException;
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidArgumentException;
 
 public class DeleteCommand extends Command {
     private final int index;

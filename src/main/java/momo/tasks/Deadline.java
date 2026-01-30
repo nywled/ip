@@ -1,7 +1,7 @@
 /**
  * Deadline class is a subclass of Task
  */
-package tasks;
+package momo.tasks;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

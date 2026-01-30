@@ -1,15 +1,14 @@
-package commands;
-
-import momo.TaskManager;
-import momo.Ui;
-
-import tasks.Task;
-import tasks.Event;
+package momo.commands;
 
 import java.time.LocalDateTime;
 
-import exceptions.MomoException;
-import exceptions.InvalidArgumentException;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
+import momo.tasks.Task;
+import momo.tasks.Event;
+
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidArgumentException;
 
 public class EventCommand extends Command {
     private final String title;

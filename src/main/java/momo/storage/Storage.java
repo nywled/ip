@@ -1,7 +1,7 @@
 /**
  * Storage class handles all read write storage operations
  */
-package storage;
+package momo.storage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,12 +15,12 @@ import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
 
-import tasks.Task;
-import tasks.Todo;
-import tasks.Deadline;
-import tasks.Event;
+import momo.tasks.Task;
+import momo.tasks.Todo;
+import momo.tasks.Deadline;
+import momo.tasks.Event;
 
-import exceptions.StorageException;
+import momo.exceptions.StorageException;
 
 
 

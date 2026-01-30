@@ -1,4 +1,4 @@
-package exceptions;
+package momo.exceptions;
 
 public class InvalidDateTimeException extends MomoException {
     public InvalidDateTimeException() {

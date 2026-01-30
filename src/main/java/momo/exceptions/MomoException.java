@@ -1,7 +1,7 @@
 /**
  * Main exception class
  */
-package exceptions;
+package momo.exceptions;
 
 public class MomoException extends RuntimeException {
     public MomoException(String message) {

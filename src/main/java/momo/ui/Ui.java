@@ -3,12 +3,14 @@
  * This class is responsible for displaying outputs
  * and getting user input.
  */
-package momo;
+package momo.ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import tasks.Task;
+import momo.storage.TaskManager;
+
+import momo.tasks.Task;
 
 public class Ui {
     private static final String LOGO = " /\\_/\\\n"+ 

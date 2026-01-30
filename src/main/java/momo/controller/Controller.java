@@ -1,15 +1,15 @@
 /**
  * Controller class handles all execution
  */
-import commands.Command;
+package momo.controller;
 
-import momo.Ui;
-import momo.TaskManager;
+import momo.commands.Command;
+import momo.parser.Parser;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
 
-import parser.Parser;
-
-import exceptions.MomoException;
-import exceptions.StorageException;
+import momo.exceptions.MomoException;
+import momo.exceptions.StorageException;
 
 public class Controller{
     private final Ui ui;

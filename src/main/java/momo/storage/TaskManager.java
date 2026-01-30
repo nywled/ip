@@ -1,10 +1,8 @@
-package momo;
+package momo.storage;
 
 import java.util.ArrayList;
 
-import storage.Storage;
-
-import tasks.Task;
+import momo.tasks.Task;
 
 public class TaskManager {
     private final Storage storage;
@@ -26,7 +24,7 @@ public class TaskManager {
         return removedTask;
     }
 
-    public Task getTask(int i){
+    public Task getTask(int i) {
         return taskList.get(i);
     }
 

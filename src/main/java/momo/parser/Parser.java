@@ -2,7 +2,7 @@
  * Parser translate the user input into commands to execute
  */
 
-package parser;
+package momo.parser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,20 +10,22 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import commands.Command;
-import commands.ListCommand;
-import commands.ExitCommand;
-import commands.MarkCommand;
-import commands.UnmarkCommand;
-import commands.DeleteCommand;
-import commands.TodoCommand;
-import commands.DeadlineCommand;
-import commands.EventCommand;
+import momo.commands.Command;
+import momo.commands.ListCommand;
+import momo.commands.ExitCommand;
+import momo.commands.MarkCommand;
+import momo.commands.UnmarkCommand;
+import momo.commands.DeleteCommand;
+import momo.commands.TodoCommand;
+import momo.commands.DeadlineCommand;
+import momo.commands.EventCommand;
 
-import exceptions.MomoException;
-import exceptions.InvalidCommandException;
-import exceptions.InvalidArgumentException;
-import exceptions.InvalidDateTimeException;
+import momo.ui.Ui;
+
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidCommandException;
+import momo.exceptions.InvalidArgumentException;
+import momo.exceptions.InvalidDateTimeException;
 
 public class Parser {
     public Command parse(String cmd) throws MomoException{

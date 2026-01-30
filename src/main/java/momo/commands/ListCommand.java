@@ -1,9 +1,9 @@
-package commands;
+package momo.commands;
 
-import momo.TaskManager;
-import momo.Ui;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
 
-import exceptions.MomoException;
+import momo.exceptions.MomoException;
 
 public class ListCommand extends Command {
 

@@ -1,7 +1,7 @@
 /**
  * Todo class is a subclass of Task
  */
-package tasks;
+package momo.tasks;
 
 public class Todo extends Task {
 

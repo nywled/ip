@@ -1,7 +1,7 @@
 /**
  * Exception class to handle unknown commands
  */
-package exceptions;
+package momo.exceptions;
 
 public class InvalidCommandException extends MomoException {
     public InvalidCommandException() {

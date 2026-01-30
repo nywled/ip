@@ -1,7 +1,7 @@
 /**
  * Class containing all information of a todo task
  */
-package tasks;
+package momo.tasks;
 
 public class Task {
     private String title;

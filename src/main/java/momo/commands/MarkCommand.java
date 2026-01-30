@@ -1,12 +1,12 @@
-package commands;
+package momo.commands;
 
-import momo.TaskManager;
-import momo.Ui;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
 
-import tasks.Task;
+import momo.tasks.Task;
 
-import exceptions.MomoException;
-import exceptions.InvalidArgumentException;
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidArgumentException;
 
 public class MarkCommand extends Command {
     private final int index;

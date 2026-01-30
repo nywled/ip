@@ -1,15 +1,14 @@
-package commands;
+package momo.commands;
 
 import java.time.LocalDateTime;
 
-import momo.TaskManager;
-import momo.Ui;
+import momo.storage.TaskManager;
+import momo.ui.Ui;
+import momo.tasks.Task;
+import momo.tasks.Deadline;
 
-import tasks.Task;
-import tasks.Deadline;
-
-import exceptions.MomoException;
-import exceptions.InvalidArgumentException;
+import momo.exceptions.MomoException;
+import momo.exceptions.InvalidArgumentException;
 
 public class DeadlineCommand extends Command {
     private final String title;
