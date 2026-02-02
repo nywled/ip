@@ -9,25 +9,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-
 import java.util.ArrayList;
 
-import momo.tasks.Task;
-import momo.tasks.Todo;
+import momo.exceptions.StorageException;
 import momo.tasks.Deadline;
 import momo.tasks.Event;
+import momo.tasks.Task;
+import momo.tasks.Todo;
 
-import momo.exceptions.StorageException;
 
 
-
-public class Storage {
+public class Storage implements StorageService{
     private static final String STORAGE_PATH = "./data/tasks.txt";
     private final String filePath;
-
+    
     public Storage() {
         this.filePath = STORAGE_PATH;
         //If running for the first time, no file yet
@@ -38,6 +35,7 @@ public class Storage {
         }
     }
 
+    @Override
     public ArrayList<Task> loadTasks() {
         File file = new File(filePath);
         ArrayList<Task> taskList = new ArrayList<>();
@@ -57,6 +55,7 @@ public class Storage {
         return taskList;
     }
 
+    @Override
     public void saveTasks(ArrayList<Task> taskList) {
         File file = new File(filePath);
 
@@ -124,10 +123,6 @@ public class Storage {
             task.setComplete();
         }
         return task;
-    }
-
-    private boolean isFileFound(File file) {
-        return file.exists();
     }
 
     private void createFile(File file) {

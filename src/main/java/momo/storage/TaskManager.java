@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import momo.tasks.Task;
 
 public class TaskManager {
-    private final Storage storage;
+    private final StorageService storage;
     private final ArrayList<Task> taskList;
 
     public TaskManager() {
         this.storage = new Storage();
         this.taskList = storage.loadTasks(); // load from file into memory
+    }
+
+    // injectable (for stub/unit tests)
+    public TaskManager(StorageService storage) {
+        this.storage = storage;
+        this.taskList = storage.loadTasks();
     }
 
     public void addTask(Task task) {
