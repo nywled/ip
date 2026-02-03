@@ -26,7 +26,7 @@ public class Task {
         return (isComplete ? "X" : " ");
     }
 
-    public void setComplete(){
+    public void setComplete() {
         isComplete = true;
     }
 

@@ -25,7 +25,7 @@ import momo.tasks.Todo;
  * type markers (e.g., {@code T}, {@code D}, {@code E}).
  * </p>
  */
-public class Storage implements StorageService{
+public class Storage implements StorageService {
     private static final String STORAGE_PATH = "./data/tasks.txt";
     private final String filePath;
 
@@ -61,7 +61,7 @@ public class Storage implements StorageService{
         File file = new File(filePath);
         ArrayList<Task> taskList = new ArrayList<>();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
@@ -137,7 +137,7 @@ public class Storage implements StorageService{
         Task task;
 
         switch (type) {
-        //TODO task
+        //Todo task
         case "T":
             task = new Todo(title);
             break;

@@ -9,8 +9,10 @@ import momo.tasks.TaskManager;
  * User interface component for input and output operations. Handles all user interaction for the chatbot.
  */
 public class Ui {
-    private static final String LOGO = " /\\_/\\\n"+ 
-                                       "( o.o )\n"+
+    private static final String LOGO = " /\\_/\\\n"
+                                        +
+                                       "( o.o )\n"
+                                        +
                                        " > ^ <";
 
     private static final String LINE = "==============================";
@@ -65,7 +67,7 @@ public class Ui {
         System.out.println(LINE);
         System.out.println("Jiayous! Here are the tasks in your list:");
         for (int i = 1; i <= taskManager.getTaskListSize(); i++) {
-            System.out.println(i + "." + taskManager.getTask(i-1).toString());
+            System.out.println(i + "." + taskManager.getTask(i - 1).toString());
         }
         System.out.println(LINE);
     }

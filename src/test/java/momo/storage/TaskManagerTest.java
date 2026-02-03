@@ -13,9 +13,9 @@ import momo.tasks.Todo;
 public class TaskManagerTest {
 
     //Private class to emulate data used by Storage.java
-    private static class StubStorage implements StorageService{
+    private static class StubStorage implements StorageService {
         private ArrayList<Task> backing = new ArrayList<>();
-        public int saveCalls = 0;
+        private int saveCalls = 0;
 
         @Override
         public ArrayList<Task> loadTasks() {

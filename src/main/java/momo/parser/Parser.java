@@ -39,7 +39,7 @@ public class Parser {
      * @throws InvalidArgumentException If the command keyword is valid but arguments are invalid.
      * @throws InvalidDateTimeException If a date/time argument does not match the expected format.
      */
-    public Command parse(String cmd) throws MomoException{
+    public Command parse(String cmd) throws MomoException {
         //Handle empty input
         if (cmd == null || cmd.trim().length() == 0) {
             throw new InvalidCommandException();
@@ -57,12 +57,12 @@ public class Parser {
             throw new InvalidCommandException();
         }
 
-        switch(type){
+        switch(type) {
         //LIST
         case LIST:
             if (cmdTokens.length == 1) {
                 return new ListCommand();
-            } 
+            }
             throw new InvalidArgumentException("list");
         //MARK
         case MARK:
@@ -81,7 +81,7 @@ public class Parser {
             }
             try {
                 return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err){
+            } catch (NumberFormatException err) {
                 throw new InvalidArgumentException("unmark <int>");
             }
         //DELETE
@@ -91,7 +91,7 @@ public class Parser {
             }
             try {
                 return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err){
+            } catch (NumberFormatException err) {
                 throw new InvalidArgumentException("delete <int>");
             }
         //BYE
@@ -138,8 +138,8 @@ public class Parser {
                 // Extract times
                 String start = secondSplit[0].trim();
                 String end = secondSplit[1].trim();
-                
-                if (title.isEmpty() || start.isEmpty() || end.isEmpty()){
+
+                if (title.isEmpty() || start.isEmpty() || end.isEmpty()) {
                     throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
                 }
                 LocalDateTime startDateTime = parseUserDateTime(start);

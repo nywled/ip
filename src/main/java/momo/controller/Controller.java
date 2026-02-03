@@ -11,7 +11,7 @@ import momo.ui.Ui;
  * Main controller responsible for coordinating the main execution loop: reads user input,
  * parsing, executes commands, and handles application-level exceptions.
  */
-public class Controller{
+public class Controller {
     private final Ui ui;
     private final TaskManager taskManager;
     private final Parser parser;
@@ -43,7 +43,7 @@ public class Controller{
     public void run() {
         ui.showWelcome();
 
-        while(!isExit) {
+        while (!isExit) {
             try {
                 String userInput = ui.readUserInput().trim();
                 Command command = parser.parse(userInput);
