@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import momo.storage.TaskManager;
-
 import momo.tasks.Task;
 
 public class Ui {
@@ -72,6 +71,18 @@ public class Ui {
         System.out.println(task.toString());
         System.out.println("Now you have " + size + " tasks in the list.");
         System.out.println(LINE);
+    }
+
+    /**
+     * Displays a list of tasks that match a search query.
+     *
+     * @param found The list of tasks that match the search keyword.
+     */
+    public void showMatchingTaskList(ArrayList<Task> found) {
+        System.out.println("Here are the matching tasks in your lists");
+        for (int i = 0; i < found.size(); i++) {
+            System.out.println((i + 1) + "." + found.get(i).toString());
+        }
     }
 
     public void showErrMsg(String msg) {

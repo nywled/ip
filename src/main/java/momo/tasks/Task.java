@@ -4,7 +4,7 @@
 package momo.tasks;
 
 public class Task {
-    private String title;
+    private final String title;
     private boolean isComplete;
 
     public Task(String title) {
@@ -19,6 +19,10 @@ public class Task {
 
     public String getStatusIcon() {
         return (isComplete ? "X" : " ");
+    }
+
+    public String getTitle() {
+        return this.title;
     }
 
     public void setComplete(){

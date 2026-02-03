@@ -11,21 +11,19 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import momo.commands.Command;
-import momo.commands.ListCommand;
-import momo.commands.ExitCommand;
-import momo.commands.MarkCommand;
-import momo.commands.UnmarkCommand;
-import momo.commands.DeleteCommand;
-import momo.commands.TodoCommand;
 import momo.commands.DeadlineCommand;
+import momo.commands.DeleteCommand;
 import momo.commands.EventCommand;
-
-import momo.ui.Ui;
-
-import momo.exceptions.MomoException;
-import momo.exceptions.InvalidCommandException;
+import momo.commands.ExitCommand;
+import momo.commands.FindCommand;
+import momo.commands.ListCommand;
+import momo.commands.MarkCommand;
+import momo.commands.TodoCommand;
+import momo.commands.UnmarkCommand;
 import momo.exceptions.InvalidArgumentException;
+import momo.exceptions.InvalidCommandException;
 import momo.exceptions.InvalidDateTimeException;
+import momo.exceptions.MomoException;
 
 public class Parser {
     public Command parse(String cmd) throws MomoException{
@@ -136,6 +134,12 @@ public class Parser {
                 return new EventCommand(title, startDateTime, endDateTime);
             }
             throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
+        //FIND
+        case FIND:
+            if (cmdTokens.length != 2) {
+                throw new InvalidArgumentException("find <keyword>");
+            }
+            return new FindCommand(cmdTokens[1]);
         //DEFAULT
         default:
             throw new InvalidCommandException();
