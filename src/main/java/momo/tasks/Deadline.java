@@ -29,11 +29,6 @@ public class Deadline extends Task {
         this.dueDate = dueDate;
     }
 
-    public Deadline(String title, boolean isComplete, LocalDateTime dueDate) {
-        super(title, isComplete);
-        this.dueDate = dueDate;
-    }
-
     /**
      * {@inheritDoc}
      * <p>

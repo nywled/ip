@@ -21,10 +21,6 @@ public class Todo extends Task {
         super(title);
     }
 
-    public Todo(String title, boolean isComplete) {
-        super(title, isComplete);
-    }
-
     /**
      * {@inheritDoc}
      * <p>

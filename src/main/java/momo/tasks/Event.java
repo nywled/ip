@@ -32,12 +32,6 @@ public class Event extends Task {
         this.endDate = endDate;
     }
 
-    public Event(String title, boolean isComplete, LocalDateTime startDate, LocalDateTime endDate) {
-        super(title, isComplete);
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     /**
      * {@inheritDoc}
      * <p>

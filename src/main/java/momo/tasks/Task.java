@@ -24,11 +24,6 @@ public class Task {
         this.title = title;
         this.isComplete = false;
     }
-    
-    public Task(String title, boolean isComplete){
-        this.title = title;
-        this.isComplete = isComplete;
-    }
 
     public String getStatusIcon() {
         return (isComplete ? "X" : " ");
