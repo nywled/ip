@@ -11,6 +11,7 @@ import momo.commands.DeadlineCommand;
 import momo.commands.DeleteCommand;
 import momo.commands.EventCommand;
 import momo.commands.ExitCommand;
+import momo.commands.FindCommand;
 import momo.commands.ListCommand;
 import momo.commands.MarkCommand;
 import momo.commands.TodoCommand;
@@ -147,6 +148,12 @@ public class Parser {
                 return new EventCommand(title, startDateTime, endDateTime);
             }
             throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
+        //FIND
+        case FIND:
+            if (cmdTokens.length != 2) {
+                throw new InvalidArgumentException("find <keyword>");
+            }
+            return new FindCommand(cmdTokens[1]);
         //DEFAULT
         default:
             throw new InvalidCommandException();

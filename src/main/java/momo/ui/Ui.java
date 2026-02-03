@@ -1,5 +1,6 @@
 package momo.ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import momo.tasks.Task;
@@ -111,10 +112,17 @@ public class Ui {
     }
 
     /**
-     * Displays an error message to the user.
+     * Displays a list of tasks that match a search query.
      *
-     * @param msg The error message to display.
+     * @param found The list of tasks that match the search keyword.
      */
+    public void showMatchingTaskList(ArrayList<Task> found) {
+        System.out.println("Here are the matching tasks in your lists");
+        for (int i = 0; i < found.size(); i++) {
+            System.out.println((i + 1) + "." + found.get(i).toString());
+        }
+    }
+
     public void showErrMsg(String msg) {
         System.out.println(msg);
     }

@@ -20,5 +20,7 @@ public enum CommandType {
     /** Adds a deadline task. */
     DEADLINE,
     /** Adds an event task. */
-    EVENT
+    EVENT,
+    /** Finds all matching tasks */
+    FIND
 }
