@@ -1,7 +1,3 @@
-/**
- * Parser translate the user input into commands to execute
- */
-
 package momo.parser;
 
 import java.time.LocalDate;
@@ -11,23 +7,38 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import momo.commands.Command;
-import momo.commands.ListCommand;
-import momo.commands.ExitCommand;
-import momo.commands.MarkCommand;
-import momo.commands.UnmarkCommand;
-import momo.commands.DeleteCommand;
-import momo.commands.TodoCommand;
 import momo.commands.DeadlineCommand;
+import momo.commands.DeleteCommand;
 import momo.commands.EventCommand;
-
-import momo.ui.Ui;
-
-import momo.exceptions.MomoException;
-import momo.exceptions.InvalidCommandException;
+import momo.commands.ExitCommand;
+import momo.commands.ListCommand;
+import momo.commands.MarkCommand;
+import momo.commands.TodoCommand;
+import momo.commands.UnmarkCommand;
 import momo.exceptions.InvalidArgumentException;
+import momo.exceptions.InvalidCommandException;
 import momo.exceptions.InvalidDateTimeException;
+import momo.exceptions.MomoException;
 
+/**
+ * Parser validates raw user input and parses into executable {@link momo.commands.Command} objects.
+ * Throws {@link momo.exceptions.MomoException} subclasses for invalid inputs.
+ */
 public class Parser {
+    /**
+     * Parses a user command string into a {@link Command}.
+     * <p>
+     * The first token is interpreted as a command keyword which is mapped to a {@link CommandType}.
+     * Remaining tokens (or delimiter sections such as {@code /by}, {@code /from}, {@code /to}) are
+     * parsed as arguments.
+     * </p>
+     *
+     * @param cmd Raw user input.
+     * @return A concrete {@link Command} corresponding to the user input.
+     * @throws InvalidCommandException If the command keyword is missing or unrecognized.
+     * @throws InvalidArgumentException If the command keyword is valid but arguments are invalid.
+     * @throws InvalidDateTimeException If a date/time argument does not match the expected format.
+     */
     public Command parse(String cmd) throws MomoException{
         //Handle empty input
         if (cmd == null || cmd.trim().length() == 0) {
@@ -89,10 +100,10 @@ public class Parser {
                 return new ExitCommand();
             }
             throw new InvalidArgumentException("bye");
-        //TODO
+        //TODo
         case TODO:
             if (cmdTokens.length >= 2) { //todo <title>
-                String title = cmd.substring(cmd.indexOf("\\s+") + 1).trim(); //only take <title>
+                String title = cmd.substring(cmd.indexOf(" ") + 1).trim(); //only take <title>
                 if (title.isEmpty()) {
                     throw new InvalidArgumentException("todo <task>");
                 }
@@ -142,6 +153,20 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses user date/time input into a {@link LocalDateTime}.
+     * <p>
+     * Supported formats:
+     * <ul>
+     *   <li>{@code yyyy-MM-dd} (date only, interpreted as start of day)</li>
+     *   <li>{@code yyyy-MM-dd HHmm} (date with 24-hour time)</li>
+     * </ul>
+     * </p>
+     *
+     * @param input User date/time string.
+     * @return Parsed {@link LocalDateTime}.
+     * @throws InvalidDateTimeException If the input is blank or does not match supported formats.
+     */
     private LocalDateTime parseUserDateTime(String input) throws InvalidDateTimeException {
         String x = input.trim();
         if (x.isEmpty()) {

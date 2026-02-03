@@ -16,8 +16,8 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '8.29'
-    //toolVersion = '11.0.0' DONT USE THIS
+    toolVersion = '8.32'
+    //toolVersion = '11.0.0'
 }
 
 run {
