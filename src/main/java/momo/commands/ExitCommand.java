@@ -3,8 +3,6 @@ package momo.commands;
 import momo.storage.TaskManager;
 import momo.ui.Ui;
 
-import momo.exceptions.MomoException;
-
 public class ExitCommand extends Command {
 
     @Override

@@ -1,19 +1,20 @@
 package momo.storage;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
-import momo.tasks.Todo;
+import org.junit.jupiter.api.Test;
+
 import momo.tasks.Task;
+import momo.tasks.Todo;
 
 public class TaskManagerTest {
 
     //Private class to emulate data used by Storage.java
-    private static class StubStorage implements StorageService{
+    private static class StubStorage implements StorageService {
         private ArrayList<Task> backing = new ArrayList<>();
-        public int saveCalls = 0;
+        private int saveCalls = 0;
 
         @Override
         public ArrayList<Task> loadTasks() {

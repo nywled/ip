@@ -5,16 +5,16 @@
  */
 package momo.ui;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import momo.storage.TaskManager;
-
 import momo.tasks.Task;
 
 public class Ui {
-    private static final String LOGO = " /\\_/\\\n"+ 
-                                       "( o.o )\n"+
+    private static final String LOGO = " /\\_/\\\n"
+                                        +
+                                       "( o.o )\n"
+                                        +
                                        " > ^ <";
 
     private static final String LINE = "==============================";
@@ -47,7 +47,7 @@ public class Ui {
         System.out.println(LINE);
         System.out.println("Jiayous! Here are the tasks in your list:");
         for (int i = 1; i <= taskManager.getTaskListSize(); i++) {
-            System.out.println(i + "." + taskManager.getTask(i-1).toString());
+            System.out.println(i + "." + taskManager.getTask(i - 1).toString());
         }
         System.out.println(LINE);
     }

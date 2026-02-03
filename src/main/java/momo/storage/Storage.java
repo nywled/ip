@@ -21,10 +21,10 @@ import momo.tasks.Todo;
 
 
 
-public class Storage implements StorageService{
+public class Storage implements StorageService {
     private static final String STORAGE_PATH = "./data/tasks.txt";
     private final String filePath;
-    
+
     public Storage() {
         this.filePath = STORAGE_PATH;
         //If running for the first time, no file yet
@@ -40,7 +40,7 @@ public class Storage implements StorageService{
         File file = new File(filePath);
         ArrayList<Task> taskList = new ArrayList<>();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
@@ -129,7 +129,7 @@ public class Storage implements StorageService{
         try {
             File parentDirectory = file.getParentFile();
 
-            //If parent directory is not found, force create    
+            //If parent directory is not found, force create
             if (parentDirectory != null && !parentDirectory.exists()) {
                 parentDirectory.mkdirs();
             }

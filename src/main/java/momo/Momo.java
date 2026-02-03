@@ -5,7 +5,6 @@
 package momo;
 
 import momo.controller.Controller;
-
 import momo.ui.Ui;
 
 public class Momo {

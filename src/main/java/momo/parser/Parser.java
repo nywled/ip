@@ -11,21 +11,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import momo.commands.Command;
-import momo.commands.ListCommand;
-import momo.commands.ExitCommand;
-import momo.commands.MarkCommand;
-import momo.commands.UnmarkCommand;
-import momo.commands.DeleteCommand;
-import momo.commands.TodoCommand;
 import momo.commands.DeadlineCommand;
+import momo.commands.DeleteCommand;
 import momo.commands.EventCommand;
-
-import momo.ui.Ui;
-
-import momo.exceptions.MomoException;
-import momo.exceptions.InvalidCommandException;
+import momo.commands.ExitCommand;
+import momo.commands.ListCommand;
+import momo.commands.MarkCommand;
+import momo.commands.TodoCommand;
+import momo.commands.UnmarkCommand;
 import momo.exceptions.InvalidArgumentException;
+import momo.exceptions.InvalidCommandException;
 import momo.exceptions.InvalidDateTimeException;
+import momo.exceptions.MomoException;
 
 public class Parser {
     public Command parse(String cmd) throws MomoException{
@@ -46,12 +43,12 @@ public class Parser {
             throw new InvalidCommandException();
         }
 
-        switch(type){
+        switch(type) {
         //LIST
         case LIST:
             if (cmdTokens.length == 1) {
                 return new ListCommand();
-            } 
+            }
             throw new InvalidArgumentException("list");
         //MARK
         case MARK:
@@ -70,7 +67,7 @@ public class Parser {
             }
             try {
                 return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err){
+            } catch (NumberFormatException err) {
                 throw new InvalidArgumentException("unmark <int>");
             }
         //DELETE
@@ -80,7 +77,7 @@ public class Parser {
             }
             try {
                 return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err){
+            } catch (NumberFormatException err) {
                 throw new InvalidArgumentException("delete <int>");
             }
         //BYE
@@ -127,7 +124,7 @@ public class Parser {
                 // Extract times
                 String start = secondSplit[0].trim();
                 String end = secondSplit[1].trim();
-                
+
                 if (title.isEmpty() || start.isEmpty() || end.isEmpty()){
                     throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
                 }
