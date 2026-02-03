@@ -1,14 +1,11 @@
+package momo.tasks;
+
 /**
  * Represents a todo task. A todo task is a task without any associated date/time.
  * <p>
  * This class is a concrete {@link Task} subtype and customizes string/storage formats
  * by prefixing the base task representation with a type marker.
  * </p>
- */
-package momo.tasks;
-
-/**
- * A todo task with no deadline and no event time.
  */
 public class Todo extends Task {
 

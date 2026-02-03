@@ -1,3 +1,5 @@
+package momo.tasks;
+
 /**
  * Represents a generic task with a title and completion status.
  * <p>
@@ -5,11 +7,6 @@
  * implementations (e.g., todo, deadline, event). It also provides simple
  * serialization support via {@link #toStorageString()}.
  * </p>
- */
-package momo.tasks;
-
-/**
- * A basic task containing a title and completion status.
  */
 public class Task {
     private String title;

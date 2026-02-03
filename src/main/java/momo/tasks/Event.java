@@ -1,11 +1,3 @@
-/**
- * Represents an event task. An event task has a start and end date/time.
- * <p>
- * This class is a concrete {@link Task} subtype that stores a start and end {@link java.time.LocalDateTime} and
- * customizes string/storage formats by prefixing the base task representation
- * with a type marker and start/end date/time.
- * </p>
- */
 package momo.tasks;
 
 import java.time.LocalDateTime;
@@ -13,7 +5,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * An event task with a start and end date/time.
+ * Represents an event task. An event task has a start and end date/time.
+ * <p>
+ * This class is a concrete {@link Task} subtype that stores a start and end {@link java.time.LocalDateTime} and
+ * customizes string/storage formats by prefixing the base task representation
+ * with a type marker and start/end date/time.
+ * </p>
  */
 public class Event extends Task {
     private LocalDateTime startDate;

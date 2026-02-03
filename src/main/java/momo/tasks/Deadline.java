@@ -1,11 +1,3 @@
-/**
- * Represents a deadline task. A deadline task has a single due date/time.
- * <p>
- * This class is a concrete {@link Task} subtype that stores a due {@link java.time.LocalDateTime} and
- * customizes string/storage formats by prefixing the base task representation
- * with a type marker and a due date/time.
- * </p>
- */
 package momo.tasks;
 
 import java.time.LocalDateTime;
@@ -13,7 +5,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A deadline task with a due date/time.
+ * Represents a deadline task. A deadline task has a single due date/time.
+ * <p>
+ * This class is a concrete {@link Task} subtype that stores a due date/time {@link java.time.LocalDateTime} and
+ * customizes string/storage formats by prefixing the base task representation
+ * with a type marker and a due date/time.
+ * </p>
  */
 public class Deadline extends Task {
     private LocalDateTime dueDate;
