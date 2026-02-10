@@ -44,7 +44,7 @@ public class DeadlineCommand extends Command {
 
         Task task = new Deadline(title, dueDate);
         taskManager.addTask(task); // autosaves inside TaskManager
-        ui.addTaskAck(task, taskManager.getTaskListSize());
+        ui.displayAddedTask(task, taskManager.getTaskListSize());
 
         return false;
     }
