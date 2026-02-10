@@ -39,7 +39,7 @@ public class TodoCommand extends Command {
 
         Task task = new Todo(title);
         taskManager.addTask(task); // autosaves inside TaskManager
-        ui.addTaskAck(task, taskManager.getTaskListSize());
+        ui.displayAddedTask(task, taskManager.getTaskListSize());
 
         return false;
     }
