@@ -24,8 +24,8 @@ public class MainWindow extends AnchorPane {
 
     private Momo momo;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private Image momoImage = new Image(this.getClass().getResourceAsStream("/images/momo.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
+    private Image momoImage = new Image(this.getClass().getResourceAsStream("/images/momo.jpg"));
 
     @FXML
     public void initialize() {
@@ -50,6 +50,13 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getMomoDialog(response, momoImage)
         );
         userInput.clear();
+
+        if (momo.shouldExit()) {
+            javafx.animation.PauseTransition pause =
+                new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1.5));
+            pause.setOnFinished(e -> javafx.application.Platform.exit());
+            pause.play();
+        }
     }
 }
 
