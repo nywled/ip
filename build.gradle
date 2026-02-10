@@ -55,7 +55,7 @@ test {
 }
 
 application {
-    mainClass.set("momo.Momo")
+    mainClass.set("momo.Launcher")
 }
 
 shadowJar {
