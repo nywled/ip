@@ -24,7 +24,10 @@ public class Momo {
     private boolean isExit;
 
     /**
-     * Constructor
+     * Constructs a {@code Momo} instance with default components.
+     * <p>
+     * Initializes the parser, task manager, and GUI handler.
+     * </p>
      */
     public Momo() {
         this.taskManager = new TaskManager();
@@ -40,6 +43,7 @@ public class Momo {
      */
     public String getResponse(String input) {
         gui.clear();
+
         try {
             Command command = parser.parse(input);
             isExit = command.execute(taskManager, gui);
@@ -60,7 +64,12 @@ public class Momo {
     }
 
     /**
-     * CLI entry point (for legacy use).
+     * Command-line interface entry point for legacy use.
+     * <p>
+     * Initializes the CLI {@link Ui} and starts the main controller loop.
+     * </p>
+     *
+     * @param args Command-line arguments (unused).
      */
     public static void main(String[] args) {
         Ui ui = new Ui();

@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import momo.Momo;
 
 /**
- * Controller for the main GUI.
+ * Controller for the main GUI window.
  */
 public class MainWindow extends AnchorPane {
     @FXML
@@ -27,19 +27,33 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
     private Image momoImage = new Image(this.getClass().getResourceAsStream("/images/momo.jpg"));
 
+    /**
+     * Initializes the main window after its FXML elements are loaded.
+     * <p>
+     * Automatically scrolls the dialog pane to the bottom whenever
+     * new dialog boxes are added.
+     * </p>
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
+    /**
+     * Injects the {@link Momo} instance used to process user input.
+     *
+     * @param m The {@code Momo} application instance.
+     */
     public void setDuke(Momo m) {
         momo = m;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing momo's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Creates two dialog boxes, one echoing user input and the other containing momo's
+     * reply and then appends them to the dialog container.
+     * <p>
+     * Clears the user input after processing.
+     * </p>
      */
     @FXML
     private void handleUserInput() {

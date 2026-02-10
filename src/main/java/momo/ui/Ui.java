@@ -123,6 +123,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays a non-fatal error message.
+     *
+     * @param msg Error message to display.
+     */
     public void showErrMsg(String msg) {
         System.out.println(msg);
     }
