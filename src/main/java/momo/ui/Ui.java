@@ -51,7 +51,7 @@ public class Ui {
      * @param task The task that was added.
      * @param size The current number of tasks in the list.
      */
-    public void addTaskAck(Task task, int size) {
+    public void displayAddedTask(Task task, int size) {
         System.out.println(LINE);
         System.out.println("Got it! I've added this task:");
         System.out.println(task.toString());
