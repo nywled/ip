@@ -18,6 +18,8 @@ public class Task {
      * @param title Title/description of the task.
      */
     public Task(String title) {
+        assert title != null : "title is null";
+        assert !title.isBlank() : "title must not be blank";
         this.title = title;
         this.isComplete = false;
     }
