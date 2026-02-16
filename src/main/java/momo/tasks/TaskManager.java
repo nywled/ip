@@ -74,6 +74,15 @@ public class TaskManager {
     }
 
     /**
+     * Returns an array of the tasks currently managed.
+     *
+     * @return A new arraylist of tasks.
+     */
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(taskList);
+    }
+
+    /**
      * Returns the number of tasks currently managed.
      *
      * @return Size of the task list.
