@@ -9,6 +9,11 @@ package momo.tasks;
  * </p>
  */
 public class Task {
+    private static final int COMPLETE_STATUS = 1;
+    private static final int INCOMPLETE_STATUS = 0;
+    private static final String COMPLETE_SYMBOL = "X";
+    private static final String INCOMPLETE_SYMBOL = " ";
+
     private final String title;
     private boolean isComplete;
 
@@ -23,7 +28,7 @@ public class Task {
     }
 
     public String getStatusIcon() {
-        return (isComplete ? "X" : " ");
+        return (isComplete ? COMPLETE_SYMBOL : INCOMPLETE_SYMBOL);
     }
 
     public String getTitle() {
@@ -47,7 +52,7 @@ public class Task {
      * @return A string representation suitable for saving to storage.
      */
     public String toStorageString() {
-        int status = isComplete ? 1 : 0;
+        int status = isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
         return ("|" + status + "|" + this.title);
     }
 
