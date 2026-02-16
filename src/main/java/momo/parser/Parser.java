@@ -48,12 +48,12 @@ public class Parser {
 
         //Split the command up to extract main word
         String[] cmdTokens = cmd.trim().split("\\s+");
-        String key = cmdTokens[0].toLowerCase();
+        String trimmed = cmd.trim();
 
         //Enum matching
         CommandType type;
         try {
-            type = CommandType.valueOf(key.toUpperCase());
+            type = CommandType.valueOf(cmdTokens[0].toUpperCase());
         } catch (IllegalArgumentException err) {
             throw new InvalidCommandException();
         }
@@ -61,103 +61,159 @@ public class Parser {
         switch(type) {
         //LIST
         case LIST:
-            if (cmdTokens.length == 1) {
-                return new ListCommand();
-            }
-            throw new InvalidArgumentException("list");
+            return parseListCommand(cmdTokens);
         //MARK
         case MARK:
-            if (cmdTokens.length != 2) {
-                throw new InvalidArgumentException("mark <int>");
-            }
-            try {
-                return new MarkCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err) {
-                throw new InvalidArgumentException("mark <int>");
-            }
+            return parseMarkCommand(cmdTokens);
         //UNMARK
         case UNMARK:
-            if (cmdTokens.length != 2) {
-                throw new InvalidArgumentException("unmark <int>");
-            }
-            try {
-                return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err) {
-                throw new InvalidArgumentException("unmark <int>");
-            }
+            return parseUnmarkCommand(cmdTokens);
         //DELETE
         case DELETE:
-            if (cmdTokens.length != 2) {
-                throw new InvalidArgumentException("delete <int>");
-            }
-            try {
-                return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
-            } catch (NumberFormatException err) {
-                throw new InvalidArgumentException("delete <int>");
-            }
+            return parseDeleteCommand(cmdTokens);
         //BYE
         case BYE:
-            if (cmdTokens.length == 1) {
-                return new ExitCommand();
-            }
-            throw new InvalidArgumentException("bye");
+            return parseByeCommand(cmdTokens);
         //TODo
         case TODO:
-            if (cmdTokens.length >= 2) { //todo <title>
-                String title = cmd.substring(cmd.indexOf(" ") + 1).trim(); //only take <title>
-                if (title.isEmpty()) {
-                    throw new InvalidArgumentException("todo <task>");
-                }
-                return new TodoCommand(title);
-            }
-            throw new InvalidArgumentException("todo <task>");
+            return parseTodoCommand(trimmed, cmdTokens);
         //DEADLINE
         case DEADLINE:
-            if (cmd.contains(" /by ")) { //deadline <title> /by <date>
-                String[] parts = cmd.split(" /by ", 2);
-                if (parts.length == 2 && parts[0].trim().length() > 8) {
-                    String title = parts[0].substring(parts[0].indexOf(" ") + 1).trim();
-                    String by = parts[1].trim();
-                    if (title.isEmpty() || by.isEmpty()) {
-                        throw new InvalidArgumentException("deadline <task> /by <date>");
-                    }
-                    LocalDateTime byDateTime = parseUserDateTime(by);
-                    return new DeadlineCommand(title, byDateTime);
-                }
-            }
-            throw new InvalidArgumentException("deadline <task> /by <date>");
+            return parseDeadlineCommand(trimmed);
         //EVENT
         case EVENT:
-            if (cmd.contains(" /from ") && cmd.contains(" /to ")) { //event <title> /from <time> /to <time>
-                String[] firstSplit = cmd.split(" /from ", 2);
-
-                // Extract title
-                String title = firstSplit[0].substring(firstSplit[0].indexOf(" ") + 1).trim();
-
-                String[] secondSplit = firstSplit[1].split(" /to ", 2);
-
-                // Extract times
-                String start = secondSplit[0].trim();
-                String end = secondSplit[1].trim();
-
-                if (title.isEmpty() || start.isEmpty() || end.isEmpty()) {
-                    throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
-                }
-                LocalDateTime startDateTime = parseUserDateTime(start);
-                LocalDateTime endDateTime = parseUserDateTime(end);
-                return new EventCommand(title, startDateTime, endDateTime);
-            }
-            throw new InvalidArgumentException("event <task> /from <start_date> /to <end_date>");
+            return parseEventCommand(trimmed);
         //FIND
         case FIND:
-            if (cmdTokens.length != 2) {
-                throw new InvalidArgumentException("find <keyword>");
-            }
-            return new FindCommand(cmdTokens[1]);
+            return parseFindCommand(cmdTokens);
         //DEFAULT
         default:
             throw new InvalidCommandException();
         }
+    }
+
+    private Command parseListCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 1) {
+            throw new InvalidArgumentException("list");
+        }
+
+        return new ListCommand();
+    }
+
+    private Command parseByeCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 1) {
+            throw new InvalidArgumentException("bye");
+        }
+
+        return new ExitCommand();
+    }
+
+    private Command parseMarkCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 2) {
+            throw new InvalidArgumentException("mark <int>");
+        }
+        try {
+            return new MarkCommand(Integer.parseInt(cmdTokens[1]));
+        } catch (NumberFormatException err) {
+            throw new InvalidArgumentException("mark <int>");
+        }
+    }
+
+    private Command parseUnmarkCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 2) {
+            throw new InvalidArgumentException("unmark <int>");
+        }
+        try {
+            return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
+        } catch (NumberFormatException err) {
+            throw new InvalidArgumentException("unmark <int>");
+        }
+    }
+
+    private Command parseDeleteCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 2) {
+            throw new InvalidArgumentException("delete <int>");
+        }
+        try {
+            return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
+        } catch (NumberFormatException err) {
+            throw new InvalidArgumentException("delete <int>");
+        }
+    }
+
+    private Command parseFindCommand(String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length != 2) {
+            throw new InvalidArgumentException("find <keyword>");
+        }
+        return new FindCommand(cmdTokens[1]);
+    }
+
+    private Command parseTodoCommand(String cmd, String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length < 2) {
+            throw new InvalidArgumentException("todo <task>");
+        }
+
+        String title = cmd.substring(cmd.indexOf(" ") + 1).trim(); //only take <title>
+        if (title.isEmpty()) {
+            throw new InvalidArgumentException("todo <task>");
+        }
+        return new TodoCommand(title);
+    }
+
+    private Command parseDeadlineCommand(String cmd) throws MomoException {
+        if (!cmd.contains(" /by ")) {
+            throw new InvalidArgumentException("deadline <task> /by <date>");
+        }
+
+        String[] parts = cmd.split(" /by ", 2);
+        if (parts.length < 2) {
+            throw new InvalidArgumentException("deadline <task> /by <date>");
+        }
+
+        String leftString = parts[0].trim(); // left: "deadline <title>"
+        String byString = parts[1].trim();
+
+        String title = leftString.substring(leftString.indexOf(" ") + 1).trim(); // remove "deadline"
+
+        if (title.isEmpty() || byString.isEmpty()) {
+            throw new InvalidArgumentException("deadline <task> /by <date>");
+        }
+
+        LocalDateTime byDateTime = parseUserDateTime(byString);
+        return new DeadlineCommand(title, byDateTime);
+    }
+
+    private Command parseEventCommand(String cmd) throws MomoException {
+        if (!cmd.contains(" /from ") || !cmd.contains(" /to ")) {
+            throw new InvalidArgumentException("event <task> /from <start_date/time> /to <end_date/time>");
+        }
+
+        String[] firstSplit = cmd.split(" /from ", 2);
+        if (firstSplit.length < 2) {
+            throw new InvalidArgumentException("event <task> /from <start_date/time> /to <end_date/time>");
+        }
+
+        String left = firstSplit[0].trim(); // "event <title>""
+        String rest = firstSplit[1].trim(); // "<start> /to <end>"
+
+        String title = left.substring(left.indexOf(" ") + 1).trim(); // remove "event"
+
+        String[] secondSplit = rest.split(" /to ", 2);
+        if (secondSplit.length < 2) {
+            throw new InvalidArgumentException("event <task> /from <start_date/time> /to <end_date/time>");
+        }
+
+        String from = secondSplit[0].trim();
+        String to = secondSplit[1].trim();
+
+        if (title.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            throw new InvalidArgumentException("event <task> /from <start_date/time> /to <end_date/time>");
+        }
+
+        LocalDateTime fromDateTime = parseUserDateTime(from);
+        LocalDateTime endDateTime = parseUserDateTime(to);
+
+        return new EventCommand(title, fromDateTime, endDateTime);
     }
 
     /**

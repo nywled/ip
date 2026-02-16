@@ -25,7 +25,7 @@ public class TodoCommand extends Command {
     /**
      * {@inheritDoc}
      * <p>
-     * Validates the input, creates a new {@link Todo} task, adds it to the task list,
+     * Creates a new {@link Todo} task, adds it to the task list,
      * and displays an acknowledgement message.
      * </p>
      *
@@ -33,10 +33,6 @@ public class TodoCommand extends Command {
      */
     @Override
     public boolean execute(TaskManager taskManager, Ui ui) throws MomoException {
-        if (title.isEmpty() || title == null) {
-            throw new InvalidArgumentException("todo <task>");
-        }
-
         Task task = new Todo(title);
         taskManager.addTask(task); // autosaves inside TaskManager
         ui.displayAddedTask(task, taskManager.getTaskListSize());

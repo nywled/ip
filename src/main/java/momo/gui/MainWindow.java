@@ -44,7 +44,7 @@ public class MainWindow extends AnchorPane {
      *
      * @param m The {@code Momo} application instance.
      */
-    public void setDuke(Momo m) {
+    public void setMomo(Momo m) {
         momo = m;
     }
 

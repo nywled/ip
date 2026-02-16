@@ -38,8 +38,7 @@ public class UnmarkCommand extends Command {
 
         Task task = taskManager.getTask(index);
         task.setIncomplete();
-        taskManager.save(); //MUST SAVE
-
+        taskManager.save(); //Must save as getTask() and setComplete() does not auto save
         ui.showUnmarkTask(task);
         return false;
     }
