@@ -109,9 +109,9 @@ public class Storage implements StorageService {
      * <p>
      * Expected format examples:
      * <ul>
-     * <li>{@code T|<status>|<title>}</li>
-     * <li>{@code D|<status>|<title>|<dueDate>}</li>
-     * <li>{@code E|<status>|<title>|<startDate>|<endDate>}</li>
+     * <li>{@code T|<status>|<title>|<tag>}</li>
+     * <li>{@code D|<status>|<title>|<tag>|<dueDate>}</li>
+     * <li>{@code E|<status>|<title>|<tag>|<startDate>|<endDate>}</li>
      * </ul>
      * Date/time fields are parsed using {@link LocalDateTime}.
      * </p>
@@ -122,10 +122,10 @@ public class Storage implements StorageService {
      * parsed.
      */
     private Task parseTask(String ptask) {
-        String[] tokens = ptask.split("\\|");
+        String[] tokens = ptask.split("\\|", -1); //Keep empty "" tag between ||
 
         // Invalid task input
-        if (tokens.length < 3) {
+        if (tokens.length < 4) {
             throw new StorageException("Corrupted storage line: " + ptask);
         }
 
@@ -148,6 +148,8 @@ public class Storage implements StorageService {
         if (status == 1) {
             task.setComplete();
         }
+
+        addTagsToTask(task, tokens[3]);
         return task;
     }
 
@@ -202,12 +204,12 @@ public class Storage implements StorageService {
      * @throws StorageException If the deadline format is invalid or the date/time cannot be parsed.
      */
     private Task createDeadline(String[] tokens, String title, String originalLine) {
-        if (tokens.length < 4) {
+        if (tokens.length < 5) {
             throw new StorageException("Corrupted deadline line: " + originalLine);
         }
 
         try {
-            LocalDateTime dueDate = LocalDateTime.parse(tokens[3]);
+            LocalDateTime dueDate = LocalDateTime.parse(tokens[4]);
             return new Deadline(title, dueDate);
         } catch (DateTimeParseException err) {
             throw new StorageException("Corrupted deadline date/time: " + originalLine);
@@ -224,16 +226,36 @@ public class Storage implements StorageService {
      * @throws StorageException If the event format is invalid or date/time parsing fails.
      */
     private Task createEvent(String[] tokens, String title, String originalLine) {
-        if (tokens.length < 5) {
+        if (tokens.length < 6) {
             throw new StorageException("Corrupted event line: " + originalLine);
         }
 
         try {
-            LocalDateTime startDate = LocalDateTime.parse(tokens[3]);
-            LocalDateTime endDate = LocalDateTime.parse(tokens[4]);
+            LocalDateTime startDate = LocalDateTime.parse(tokens[4]);
+            LocalDateTime endDate = LocalDateTime.parse(tokens[5]);
             return new Event(title, startDate, endDate);
         } catch (DateTimeParseException err) {
             throw new StorageException("Corrupted event date/time: " + originalLine);
+        }
+    }
+
+    /**
+     * Parses a comma-separated tag string and adds the tags to the specified task.
+     * Blank or null tag fields are ignored.
+     *
+     * @param task The task to which the tags will be added.
+     * @param tagField The comma-separated string containing tags.
+     */
+    private void addTagsToTask(Task task, String tagField) {
+        if (tagField == null || tagField.isBlank()) {
+            return;
+        }
+
+        String[] tags = tagField.split(", ");
+        for (String i : tags) {
+            if (!i.isBlank()) {
+                task.addTag(i.trim());
+            }
         }
     }
 

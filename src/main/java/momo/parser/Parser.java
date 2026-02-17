@@ -14,8 +14,10 @@ import momo.commands.ExitCommand;
 import momo.commands.FindCommand;
 import momo.commands.ListCommand;
 import momo.commands.MarkCommand;
+import momo.commands.TagCommand;
 import momo.commands.TodoCommand;
 import momo.commands.UnmarkCommand;
+import momo.commands.UntagCommand;
 import momo.exceptions.InvalidArgumentException;
 import momo.exceptions.InvalidCommandException;
 import momo.exceptions.InvalidDateTimeException;
@@ -86,6 +88,12 @@ public class Parser {
         //FIND
         case FIND:
             return parseFindCommand(cmdTokens);
+        //TAG
+        case TAG:
+            return parseTagCommand(cmdTokens);
+        //UNTAG
+        case UNTAG:
+            return parseUntagCommand(cmdTokens);
         //DEFAULT
         default:
             throw new InvalidCommandException();
@@ -145,7 +153,18 @@ public class Parser {
         if (cmdTokens.length != 2) {
             throw new InvalidArgumentException("find <keyword>");
         }
-        return new FindCommand(cmdTokens[1]);
+        String keyword = cmdTokens[1];
+        boolean isTag = false;
+
+        if (keyword.startsWith("#")) {
+            isTag = true;
+            keyword = keyword.substring(1);
+            if (keyword.isBlank()) {
+                throw new InvalidArgumentException("find #<tag>");
+            }
+        }
+
+        return new FindCommand(keyword, isTag);
     }
 
     private Command parseTodoCommand(String cmd, String[] cmdTokens) throws InvalidArgumentException {
@@ -214,6 +233,46 @@ public class Parser {
         LocalDateTime endDateTime = parseUserDateTime(to);
 
         return new EventCommand(title, fromDateTime, endDateTime);
+    }
+
+    private Command parseTagCommand(String[] cmdTokens) throws MomoException {
+        if (cmdTokens.length != 3) {
+            throw new InvalidArgumentException("tag <int> <tag>");
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(cmdTokens[1]);
+        } catch (NumberFormatException err) {
+            throw new InvalidArgumentException("tag <int> <tag>");
+        }
+
+        String tag = cmdTokens[2].trim();
+        if (tag.isEmpty()) {
+            throw new InvalidArgumentException("tag <int> <tag>");
+        }
+
+        return new TagCommand(index, tag);
+    }
+
+    private Command parseUntagCommand(String[] cmdTokens) throws MomoException {
+        if (cmdTokens.length != 3) {
+            throw new InvalidArgumentException("untag <int> <tag>");
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(cmdTokens[1]);
+        } catch (NumberFormatException err) {
+            throw new InvalidArgumentException("untag <int> <tag>");
+        }
+
+        String tag = cmdTokens[2].trim();
+        if (tag.isEmpty()) {
+            throw new InvalidArgumentException("untag <int> <tag>");
+        }
+
+        return new UntagCommand(index, tag);
     }
 
     /**

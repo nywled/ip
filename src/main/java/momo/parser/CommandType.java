@@ -22,5 +22,9 @@ public enum CommandType {
     /** Adds an event task. */
     EVENT,
     /** Finds all matching tasks */
-    FIND
+    FIND,
+    /** Tags a task*/
+    TAG,
+    /** Untags a task */
+    UNTAG,
 }

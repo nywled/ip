@@ -124,6 +124,28 @@ public class Ui {
     }
 
     /**
+     * Displays a confirmation message after a tag is added to a task.
+     *
+     * @param task The task that was updated with the new tag.
+     */
+    public void showTagAdded(Task task) {
+        System.out.println("I have added the tag:");
+        System.out.println(task.toString());
+        System.out.println(LINE);
+    }
+
+    /**
+     * Displays a confirmation message after a tag is removed from a task.
+     *
+     * @param task The task that was updated with the removed tag.
+     */
+    public void showTagRemoved(Task task) {
+        System.out.println("I have removed the tag:");
+        System.out.println(task.toString());
+        System.out.println(LINE);
+    }
+
+    /**
      * Displays a non-fatal error message.
      *
      * @param msg Error message to display.
