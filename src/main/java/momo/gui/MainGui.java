@@ -33,7 +33,7 @@ public class MainGui extends Application {
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setDuke(momo); // inject the Momo instance
+            fxmlLoader.<MainWindow>getController().setMomo(momo); // inject the Momo instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
