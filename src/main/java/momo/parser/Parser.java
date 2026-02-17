@@ -91,6 +91,7 @@ public class Parser {
         //TAG
         case TAG:
             return parseTagCommand(cmdTokens);
+        //UNTAG
         case UNTAG:
             return parseUntagCommand(cmdTokens);
         //DEFAULT

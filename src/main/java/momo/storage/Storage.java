@@ -109,9 +109,9 @@ public class Storage implements StorageService {
      * <p>
      * Expected format examples:
      * <ul>
-     * <li>{@code T|<status>|<title>}</li>
-     * <li>{@code D|<status>|<title>|<dueDate>}</li>
-     * <li>{@code E|<status>|<title>|<startDate>|<endDate>}</li>
+     * <li>{@code T|<status>|<title>|<tag>}</li>
+     * <li>{@code D|<status>|<title>|<tag>|<dueDate>}</li>
+     * <li>{@code E|<status>|<title>|<tag>|<startDate>|<endDate>}</li>
      * </ul>
      * Date/time fields are parsed using {@link LocalDateTime}.
      * </p>
@@ -239,6 +239,13 @@ public class Storage implements StorageService {
         }
     }
 
+    /**
+     * Parses a comma-separated tag string and adds the tags to the specified task.
+     * Blank or null tag fields are ignored.
+     *
+     * @param task The task to which the tags will be added.
+     * @param tagField The comma-separated string containing tags.
+     */
     private void addTagsToTask(Task task, String tagField) {
         if (tagField == null || tagField.isBlank()) {
             return;

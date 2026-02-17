@@ -141,12 +141,23 @@ public class Gui extends Ui {
             }
         }
     }
+
+    /**
+     * Displays a confirmation message after a tag is added to a task.
+     *
+     * @param task The task that was updated with the new tag.
+     */
     @Override
     public void showTagAdded(Task task) {
         appendLine("I have added the tag:");
         appendLine(task.toString());
     }
 
+    /**
+     * Displays a confirmation message after a tag is removed from a task.
+     *
+     * @param task The task that was updated with the removed tag.
+     */
     @Override
     public void showTagRemoved(Task task) {
         appendLine("I have removed the tag:");

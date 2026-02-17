@@ -39,6 +39,15 @@ public class Task {
         return (isComplete ? COMPLETE_SYMBOL : INCOMPLETE_SYMBOL);
     }
 
+    /**
+     * Checks whether the task title contains the specified keyword.
+     * <p>
+     * The comparison is case-insensitive.
+     * </p>
+     *
+     * @param keyword The keyword to search for.
+     * @return {@code true} if the title contains the keyword, otherwise {@code false}.
+     */
     public boolean containsKeyword(String keyword) {
         return this.title.toLowerCase().contains(keyword.toLowerCase());
     }
@@ -51,16 +60,32 @@ public class Task {
         this.isComplete = false;
     }
 
+    /**
+     * Adds a tag to this task.
+     *
+     * @param tag The tag to be added.
+     */
     public void addTag(String tag) {
         assert tag != null : "tag is null";
         assert !tag.isBlank() : "tag must not be blank";
         this.tags.add(tag);
     }
 
+    /**
+     * Removes a tag from this task.
+     *
+     * @param tag The tag to be removed.
+     */
     public void removeTag(String tag) {
         this.tags.remove(tag);
     }
 
+    /**
+     * Checks whether this task has the specified tag.
+     *
+     * @param tag The tag to check for.
+     * @return {@code true} if the task contains the tag, otherwise {@code false}.
+     */
     public boolean hasTag(String tag) {
         return this.tags.contains(tag);
     }

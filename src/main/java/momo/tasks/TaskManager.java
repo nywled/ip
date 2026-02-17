@@ -78,8 +78,7 @@ public class TaskManager {
     }
 
     /**
-     * Returns an array of the tasks whose title
-     * contains the searched keyword
+     * Returns an array of the tasks whose title contains the searched keyword
      *
      * @return A new arraylist of tasks.
      */
@@ -91,8 +90,7 @@ public class TaskManager {
     }
 
     /**
-     * Returns an array of the tasks whose tag
-     * contains the searched keyword
+     * Returns an array of the tasks whose tag contains the searched keyword
      *
      * @return A new arraylist of tasks.
      */

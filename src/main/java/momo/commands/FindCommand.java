@@ -8,10 +8,10 @@ import momo.tasks.TaskManager;
 import momo.ui.Ui;
 
 /**
- * Command that searches for tasks whose titles contain a given keyword.
+ * Searches for tasks whose titles or tags contain a given keyword.
  * <p>
  * Scans through all existing tasks managed by {@code TaskManager} and collects
- * tasks whose titles contain the specified keyword. The matching tasks
+ * tasks whose titles or tags contain the specified keyword. The matching tasks
  * are then displayed to the user via the {@code Ui}.
  */
 public class FindCommand extends Command {
@@ -31,7 +31,7 @@ public class FindCommand extends Command {
     /**
      * {@inheritDoc}
      * <p>
-     * Finds the tasks and displays the results if any
+     * Returns and displays the results if any of the search base on title or tags.
      * </p>
      *
      * @throws MomoException If an error occurs during command execution.
