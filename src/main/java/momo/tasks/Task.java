@@ -1,5 +1,9 @@
 package momo.tasks;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Represents a generic task with a title and completion status.
  * <p>
@@ -16,6 +20,7 @@ public class Task {
 
     private final String title;
     private boolean isComplete;
+    private final Set<String> tags;
 
     /**
      * Constructs a new task with the given title.
@@ -27,22 +32,37 @@ public class Task {
         assert !title.isBlank() : "title must not be blank";
         this.title = title;
         this.isComplete = false;
+        tags = new HashSet<>();
     }
 
     public String getStatusIcon() {
         return (isComplete ? COMPLETE_SYMBOL : INCOMPLETE_SYMBOL);
     }
 
-    public String getTitle() {
-        return this.title;
+    public boolean containsKeyword(String keyword) {
+        return this.title.toLowerCase().contains(keyword.toLowerCase());
     }
 
     public void setComplete() {
-        isComplete = true;
+        this.isComplete = true;
     }
 
     public void setIncomplete() {
-        isComplete = false;
+        this.isComplete = false;
+    }
+
+    public void addTag(String tag) {
+        assert tag != null : "tag is null";
+        assert !tag.isBlank() : "tag must not be blank";
+        this.tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
+    }
+
+    public boolean hasTag(String tag) {
+        return this.tags.contains(tag);
     }
 
     /**
@@ -55,11 +75,24 @@ public class Task {
      */
     public String toStorageString() {
         int status = isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
-        return ("|" + status + "|" + this.title);
+        return ("|" + status + "|" + this.title + "|" + getSortedTagsString());
     }
 
     @Override
     public String toString() {
-        return ("[" + this.getStatusIcon() + "] " + this.title);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[").append(getStatusIcon()).append("] ").append(title);
+        if (!tags.isEmpty()) {
+            sb.append(" (tags: ");
+            sb.append(getSortedTagsString());
+            sb.append(")");
+        }
+        return sb.toString();
+    }
+
+    private String getSortedTagsString() {
+        String sortedTags = tags.stream().sorted()
+                .collect(Collectors.joining(", "));
+        return sortedTags;
     }
 }
