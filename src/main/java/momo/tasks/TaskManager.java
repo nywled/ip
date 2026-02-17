@@ -1,6 +1,7 @@
 package momo.tasks;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import momo.storage.Storage;
 import momo.storage.StorageService;
@@ -77,12 +78,29 @@ public class TaskManager {
     }
 
     /**
-     * Returns an array of the tasks currently managed.
+     * Returns an array of the tasks whose title
+     * contains the searched keyword
      *
      * @return A new arraylist of tasks.
      */
-    public ArrayList<Task> getTasks() {
-        return new ArrayList<>(taskList);
+    public ArrayList<Task> findTasksByTitle(String keyword) {
+        ArrayList<Task> searchResults = taskList.stream()
+                .filter(task -> task.containsKeyword(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return searchResults;
+    }
+
+    /**
+     * Returns an array of the tasks whose tag
+     * contains the searched keyword
+     *
+     * @return A new arraylist of tasks.
+     */
+    public ArrayList<Task> findTasksByTag(String keyword) {
+        ArrayList<Task> searchResults = taskList.stream()
+                .filter(task -> task.hasTag(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return searchResults;
     }
 
     /**
