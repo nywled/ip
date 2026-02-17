@@ -1,6 +1,7 @@
 package momo.commands;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import momo.exceptions.MomoException;
 import momo.tasks.Task;
@@ -16,7 +17,6 @@ import momo.ui.Ui;
  */
 public class FindCommand extends Command {
     private final String keyword;
-    private ArrayList<Task> found;
 
     /**
      * Constructs a find command using the provided keyword.
@@ -25,7 +25,6 @@ public class FindCommand extends Command {
      */
     public FindCommand(String keyword) {
         this.keyword = keyword;
-        this.found = new ArrayList<>();
     }
 
     /**
@@ -38,13 +37,10 @@ public class FindCommand extends Command {
      */
     @Override
     public boolean execute(TaskManager taskManager, Ui ui) throws MomoException {
-        for (int i = 0; i < taskManager.getTaskListSize(); i++) {
-            Task task = taskManager.getTask(i);
-            String taskTitle = task.getTitle();
-            if (taskTitle.contains(keyword)) {
-                found.add(task);
-            }
-        }
+        ArrayList<Task> found = taskManager.getTasks().stream()
+            .filter(task -> task.getTitle().contains(keyword))
+            .collect(Collectors.toCollection(ArrayList::new));
+
         ui.showMatchingTaskList(found);
         return false;
     }
