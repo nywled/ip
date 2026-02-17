@@ -47,6 +47,7 @@ public class TaskManager {
      * @param task The task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task added should not be null";
         taskList.add(task);
         storage.saveTasks(taskList); //Autosave after every task add
     }
@@ -58,6 +59,7 @@ public class TaskManager {
      * @return The removed task.
      */
     public Task removeTask(int i) {
+        assert i >= 0 && i < taskList.size() : "Index out of bounds";
         Task removedTask = taskList.remove(i);
         storage.saveTasks(taskList); //Autosave after every task add
         return removedTask;
@@ -70,6 +72,7 @@ public class TaskManager {
      * @return The task at the given index.
      */
     public Task getTask(int i) {
+        assert i >= 0 && i < taskList.size() : "Index out of bounds";
         return taskList.get(i);
     }
 
