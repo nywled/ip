@@ -133,9 +133,24 @@ public class Gui extends Ui {
     @Override
     public void showMatchingTaskList(ArrayList<Task> found) {
         appendLine("Here are the matching tasks in your lists");
-        for (int i = 0; i < found.size(); i++) {
-            appendLine((i + 1) + "." + found.get(i).toString());
+        if (found.size() == 0) {
+            appendLine("No matching task found");
+        } else {
+            for (int i = 0; i < found.size(); i++) {
+                appendLine((i + 1) + "." + found.get(i).toString());
+            }
         }
+    }
+    @Override
+    public void showTagAdded(Task task) {
+        appendLine("I have added the tag:");
+        appendLine(task.toString());
+    }
+
+    @Override
+    public void showTagRemoved(Task task) {
+        appendLine("I have removed the tag:");
+        appendLine(task.toString());
     }
 
     /**

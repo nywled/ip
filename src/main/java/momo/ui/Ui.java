@@ -123,6 +123,18 @@ public class Ui {
         }
     }
 
+    public void showTagAdded(Task task) {
+        System.out.println("I have added the tag:");
+        System.out.println(task.toString());
+        System.out.println(LINE);
+    }
+
+    public void showTagRemoved(Task task) {
+        System.out.println("I have removed the tag:");
+        System.out.println(task.toString());
+        System.out.println(LINE);
+    }
+
     /**
      * Displays a non-fatal error message.
      *
