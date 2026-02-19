@@ -17,6 +17,9 @@ public class Task {
     private static final int INCOMPLETE_STATUS = 0;
     private static final String COMPLETE_SYMBOL = "X";
     private static final String INCOMPLETE_SYMBOL = " ";
+    private static final String ESC_BACKSLASH = "%5C";
+    private static final String ESC_PIPE = "%7C";
+    private static final String ESC_COMMA = "%2C";
 
     private final String title;
     private boolean isComplete;
@@ -93,14 +96,21 @@ public class Task {
     /**
      * Converts this task into a compact storage format.
      * <p>
-     * Format: {@code |<status>|<title>} where status is {@code 1} (complete) or {@code 0} (incomplete).
+     * Format: {@code |<status>|<title>|<tags>} where status is {@code 1} (complete) or {@code 0} (incomplete).
      * </p>
      *
      * @return A string representation suitable for saving to storage.
      */
     public String toStorageString() {
         int status = isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
-        return ("|" + status + "|" + this.title + "|" + getSortedTagsString());
+        String safeTitle = escapeField(this.title);
+
+        String safeTags = tags.stream()
+                .sorted()
+                .map(this::escapeField)
+                .collect(Collectors.joining(", "));
+
+        return ("|" + status + "|" + safeTitle + "|" + safeTags);
     }
 
     @Override
@@ -119,5 +129,14 @@ public class Task {
         String sortedTags = tags.stream().sorted()
                 .collect(Collectors.joining(", "));
         return sortedTags;
+    }
+
+    private String escapeField(String s) {
+        if (s == null) {
+            return null;
+        }
+        return s.replace("\\", ESC_BACKSLASH)
+                .replace("|", ESC_PIPE)
+                .replace(",", ESC_COMMA);
     }
 }

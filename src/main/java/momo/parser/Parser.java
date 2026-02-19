@@ -237,19 +237,19 @@ public class Parser {
 
     private Command parseTagCommand(String[] cmdTokens) throws MomoException {
         if (cmdTokens.length != 3) {
-            throw new InvalidArgumentException("tag <int> <tag>");
+            throw new InvalidArgumentException("tag <int> <tag1,tag2,...>");
         }
 
         int index;
         try {
             index = Integer.parseInt(cmdTokens[1]);
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("tag <int> <tag>");
+            throw new InvalidArgumentException("tag <int> <tag1,tag2,...>");
         }
 
         String tag = cmdTokens[2].trim();
         if (tag.isEmpty()) {
-            throw new InvalidArgumentException("tag <int> <tag>");
+            throw new InvalidArgumentException("tag <int> <tag1,tag2,...>");
         }
 
         return new TagCommand(index, tag);

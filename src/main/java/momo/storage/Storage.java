@@ -28,6 +28,10 @@ import momo.tasks.Todo;
  */
 public class Storage implements StorageService {
     private static final String STORAGE_PATH = "./data/tasks.txt";
+    private static final String ESC_PIPE = "%7C";
+    private static final String ESC_COMMA = "%2C";
+    private static final String ESC_BACKSLASH = "%5C";
+
     private final String filePath;
 
     /**
@@ -41,7 +45,7 @@ public class Storage implements StorageService {
      */
     public Storage() {
         this.filePath = STORAGE_PATH;
-        // If running for the first time, no file yet
+        // If programs run for the first time, the file is yet to be created
         // Create a file immediately
         File file = new File(filePath);
         if (!file.exists()) {
@@ -131,7 +135,7 @@ public class Storage implements StorageService {
 
         // Get task type
         String type = tokens[0];
-        String title = tokens[2];
+        String title = unescapeField(tokens[2]);
 
         // Get task status
         int status;
@@ -149,7 +153,7 @@ public class Storage implements StorageService {
             task.setComplete();
         }
 
-        addTagsToTask(task, tokens[3]);
+        addTagsToTask(task, unescapeField(tokens[3]));
         return task;
     }
 
@@ -251,7 +255,7 @@ public class Storage implements StorageService {
             return;
         }
 
-        String[] tags = tagField.split(", ");
+        String[] tags = tagField.split("\\s*,\\s*");
         for (String i : tags) {
             if (!i.isBlank()) {
                 task.addTag(i.trim());
@@ -279,5 +283,21 @@ public class Storage implements StorageService {
         } catch (IOException err) {
             throw new StorageException("Failed to create storage file");
         }
+    }
+
+    /**
+     * Parses an unescape string and escapes certain special characters
+     *
+     * @param file The string to parse.
+     * @return An escaped string.
+     */
+    private String unescapeField(String s) {
+        if (s == null) {
+            return null;
+        }
+        // Reverse order of escapeField (backslash first)
+        return s.replace(ESC_BACKSLASH, "\\")
+                .replace(ESC_PIPE, "|")
+                .replace(ESC_COMMA, ",");
     }
 }

@@ -39,7 +39,14 @@ public class TagCommand extends Command {
         }
 
         Task task = taskManager.getTask(index);
-        task.addTag(tag);
+        if (this.tag.contains(",")) {
+            String[] tags = this.tag.split(",");
+            for (String i : tags) {
+                task.addTag(i);
+            }
+        } else {
+            task.addTag(tag);
+        }
         taskManager.save(); //Must save as getTask() and setComplete() does not auto save
 
         ui.showTagAdded(task);
