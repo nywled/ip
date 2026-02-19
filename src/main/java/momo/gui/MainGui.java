@@ -27,6 +27,7 @@ public class MainGui extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            stage.setTitle("Momo");
             FXMLLoader fxmlLoader = new FXMLLoader(MainGui.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
