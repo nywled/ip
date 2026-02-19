@@ -10,10 +10,10 @@ The AI was tasked with improving the GUI in terms of suggesting a colour scheme 
 ### AI Contribution
 A warm yellow theme was proposed to match the colour of yellow hamsters. Variants of blue was
 proposed as the secondary colour.
-* Input box: pale beige #f5eecb
+* Input box: pale beige #F5EECB
 * User bubble: light steel blue #A7C7E7
 * Momo bubble: goldenrod #D9A441
-* Enter button: steel blue #4595b5
+* Enter button: steel blue #4595B5
 
 A padding was proposed to be placed in the anchorPane.
 `src/main/resources/css/main.css`
