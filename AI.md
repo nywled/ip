@@ -22,3 +22,88 @@ A padding was proposed to be placed in the anchorPane.
     -fx-padding: 5;
 }
 ```
+
+## A-MoreErrorHandling
+### Scope
+Given the Parser, Storage and Command classes, the AI was tasked with finding out if any user inputs will
+cause the software to break.
+#### AI Contribution
+Several flaws were found by AI just through one look at the code. The following inputs will cause the software to crash upon the next start up:
+* any field inputs with "|"
+* any field inputs with ","
+
+The following solution was proposed and implemented: **Use character escaping**
+1. Escape characters when saving.
+
+In `src/main/java/momo/tasks/Tasks.java`, add the following:
+```java
+public class Task {
+    ...
+    private static final String ESC_BACKSLASH = "%5C";
+    private static final String ESC_PIPE = "%7C";
+    private static final String ESC_COMMA = "%2C";
+    ...
+
+    private String unescapeField(String s) {
+        if (s == null) {
+            return null;
+        }
+        // Reverse order of escapeField (backslash first)
+        return s.replace(ESC_BACKSLASH, "\\")
+                .replace(ESC_PIPE, "|")
+                .replace(ESC_COMMA, ",");
+    }
+}
+```
+and modify the `toStorageString()`:
+```java
+public String toStorageString() {
+    int status = isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
+    String safeTitle = escapeField(this.title);
+
+    String safeTags = tags.stream()
+            .sorted()
+            .map(this::escapeField)
+            .collect(Collectors.joining(", "));
+
+    return ("|" + status + "|" + safeTitle + "|" + safeTags);
+}
+```
+2. Unescape characters when loading
+
+In `src/main/java/momo/storage/Storage.java`, add the following:
+```java
+public class Storage {
+    ...
+    private static final String ESC_PIPE = "%7C";
+    private static final String ESC_COMMA = "%2C";
+    private static final String ESC_BACKSLASH = "%5C";
+    ...
+
+    private String unescapeField(String s) {
+        if (s == null) {
+            return null;
+        }
+        // Reverse order of escapeField (backslash first)
+        return s.replace(ESC_BACKSLASH, "\\")
+                .replace(ESC_PIPE, "|")
+                .replace(ESC_COMMA, ",");
+    }
+}
+
+and modify parseTask():
+```java
+private Task parseTask(String ptask) {
+        ...
+        String title = unescapeField(tokens[2]);
+
+        ...
+
+        addTagsToTask(task, unescapeField(tokens[3]));
+        return task;
+    }
+```
+
+
+
+
