@@ -79,7 +79,7 @@ public class Storage implements StorageService {
                 taskList.add(parseTask(line));
             }
         } catch (IOException err) {
-            throw new StorageException("Failed to load storage file");
+            throw new StorageException("Failed to load storage file. Delete storage file and run the program again");
         }
         return taskList;
     }
