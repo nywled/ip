@@ -2,7 +2,7 @@
     -fx-background-color: white;
     -fx-text-fill: black;
 
-    -fx-border-color: black;
+    -fx-border-color: #A7C7E7;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
@@ -12,6 +12,7 @@
 }
 
 .reply-label {
+    -fx-border-color: #D9A441;
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }

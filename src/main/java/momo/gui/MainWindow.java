@@ -24,8 +24,8 @@ public class MainWindow extends AnchorPane {
 
     private Momo momo;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
-    private Image momoImage = new Image(this.getClass().getResourceAsStream("/images/momo.jpg"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
+    private Image momoImage = new Image(this.getClass().getResourceAsStream("/images/momo.png"));
 
     /**
      * Initializes the main window after its FXML elements are loaded.

@@ -84,7 +84,7 @@ public class Gui extends Ui {
      */
     @Override
     public void showTaskList(TaskManager taskManager) {
-        appendLine("Jiayous! Here are the tasks in your list:");
+        appendLine("Time to get productive!");
         for (int i = 1; i <= taskManager.getTaskListSize(); i++) {
             appendLine(i + "." + taskManager.getTask(i - 1).toString());
         }
