@@ -66,7 +66,7 @@ public class Ui {
      */
     public void showTaskList(TaskManager taskManager) {
         System.out.println(LINE);
-        System.out.println("Jiayous! Here are the tasks in your list:");
+        System.out.println("Time to get productive!");
         for (int i = 1; i <= taskManager.getTaskListSize(); i++) {
             System.out.println(i + "." + taskManager.getTask(i - 1).toString());
         }
