@@ -20,7 +20,7 @@
 }
 
 .button:hover {
-    -fx-background-color: rgb(77, 184, 227);
+    -fx-background-color: #BFDFFF;
     -fx-font-size: 17px;
 }
 
