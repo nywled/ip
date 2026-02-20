@@ -27,7 +27,7 @@ import momo.tasks.Todo;
  * </p>
  */
 public class Storage implements StorageService {
-    private static final String STORAGE_PATH = "./data/MomoTasks.txt";
+    private static final String STORAGE_PATH = "./data/momoTasks.txt";
     private static final String ESC_PIPE = "%7C";
     private static final String ESC_COMMA = "%2C";
     private static final String ESC_BACKSLASH = "%5C";
