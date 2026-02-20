@@ -195,6 +195,9 @@ public class Parser {
         String leftString = parts[0].trim(); // left: "deadline <title>"
         String byString = parts[1].trim();
 
+        if (leftString.equals("deadline")) {
+            throw new InvalidArgumentException("deadline <task> /by <date>");
+        }
         String title = leftString.substring(leftString.indexOf(" ") + 1).trim(); // remove "deadline"
 
         if (title.isEmpty() || byString.isEmpty()) {
@@ -218,6 +221,9 @@ public class Parser {
         String left = firstSplit[0].trim(); // "event <title>""
         String rest = firstSplit[1].trim(); // "<start> /to <end>"
 
+        if (left.equals("event")) {
+            throw new InvalidArgumentException("event <task> /from <start_date/time> /to <end_date/time>");
+        }
         String title = left.substring(left.indexOf(" ") + 1).trim(); // remove "event"
 
         String[] secondSplit = rest.split(" /to ", 2);
