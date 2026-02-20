@@ -87,7 +87,7 @@ public class Parser {
             return parseEventCommand(trimmed);
         //FIND
         case FIND:
-            return parseFindCommand(cmdTokens);
+            return parseFindCommand(trimmed, cmdTokens);
         //TAG
         case TAG:
             return parseTagCommand(cmdTokens);
@@ -118,42 +118,45 @@ public class Parser {
 
     private Command parseMarkCommand(String[] cmdTokens) throws InvalidArgumentException {
         if (cmdTokens.length != 2) {
-            throw new InvalidArgumentException("mark <int>");
+            throw new InvalidArgumentException("mark <index>");
         }
         try {
             return new MarkCommand(Integer.parseInt(cmdTokens[1]));
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("mark <int>");
+            throw new InvalidArgumentException("mark <index>. Index must be an integer");
         }
     }
 
     private Command parseUnmarkCommand(String[] cmdTokens) throws InvalidArgumentException {
         if (cmdTokens.length != 2) {
-            throw new InvalidArgumentException("unmark <int>");
+            throw new InvalidArgumentException("unmark <index>");
         }
         try {
             return new UnmarkCommand(Integer.parseInt(cmdTokens[1]));
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("unmark <int>");
+            throw new InvalidArgumentException("unmark <index>. Index must be an integer");
         }
     }
 
     private Command parseDeleteCommand(String[] cmdTokens) throws InvalidArgumentException {
         if (cmdTokens.length != 2) {
-            throw new InvalidArgumentException("delete <int>");
+            throw new InvalidArgumentException("delete <index>");
         }
         try {
             return new DeleteCommand(Integer.parseInt(cmdTokens[1]));
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("delete <int>");
+            throw new InvalidArgumentException("delete <index>. Index must be an integer");
         }
     }
 
-    private Command parseFindCommand(String[] cmdTokens) throws InvalidArgumentException {
-        if (cmdTokens.length != 2) {
+    private Command parseFindCommand(String cmd, String[] cmdTokens) throws InvalidArgumentException {
+        if (cmdTokens.length < 2) {
             throw new InvalidArgumentException("find <keyword>");
         }
-        String keyword = cmdTokens[1];
+        String keyword = cmd.substring(cmd.indexOf(" ") + 1).trim();
+        if (keyword.isEmpty()) {
+            throw new InvalidArgumentException("find <keyword>");
+        }
         boolean isTag = false;
 
         if (keyword.startsWith("#")) {
@@ -237,14 +240,14 @@ public class Parser {
 
     private Command parseTagCommand(String[] cmdTokens) throws MomoException {
         if (cmdTokens.length != 3) {
-            throw new InvalidArgumentException("tag <int> <tag1,tag2,...>");
+            throw new InvalidArgumentException("tag <index> <tag1,tag2,...>");
         }
 
         int index;
         try {
             index = Integer.parseInt(cmdTokens[1]);
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("tag <int> <tag1,tag2,...>");
+            throw new InvalidArgumentException("tag <index> <tag1,tag2,...>. Index should be a number");
         }
 
         String tag = cmdTokens[2].trim();
@@ -257,14 +260,14 @@ public class Parser {
 
     private Command parseUntagCommand(String[] cmdTokens) throws MomoException {
         if (cmdTokens.length != 3) {
-            throw new InvalidArgumentException("untag <int> <tag>");
+            throw new InvalidArgumentException("untag <index> <tag>");
         }
 
         int index;
         try {
             index = Integer.parseInt(cmdTokens[1]);
         } catch (NumberFormatException err) {
-            throw new InvalidArgumentException("untag <int> <tag>");
+            throw new InvalidArgumentException("untag <index> <tag>. Index should be a number");
         }
 
         String tag = cmdTokens[2].trim();

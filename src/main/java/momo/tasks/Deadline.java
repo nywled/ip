@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
  * </p>
  */
 public class Deadline extends Task {
+    private static final String TASK_SYMBOL = "D";
+
     private LocalDateTime dueDate;
 
     /**
@@ -36,7 +38,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toStorageString() {
-        return ("D" + super.toStorageString() + "|" + this.dueDate.toString());
+        return (TASK_SYMBOL + super.toStorageString() + "|" + this.dueDate.toString());
     }
 
     /**
@@ -54,10 +56,10 @@ public class Deadline extends Task {
 
         String formatted;
         if (this.dueDate.toLocalTime().equals(LocalTime.MIDNIGHT)) {
-            formatted = dueDate.format(datePattern);
+            formatted = this.dueDate.format(datePattern);
         } else {
-            formatted = dueDate.format(dateTimePattern);
+            formatted = this.dueDate.format(dateTimePattern);
         }
-        return ("[D]" + super.toString() + " (by: " + formatted + ")");
+        return ("[" + TASK_SYMBOL + "]" + super.toString() + " (by: " + formatted + ")");
     }
 }

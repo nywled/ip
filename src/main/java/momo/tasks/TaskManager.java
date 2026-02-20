@@ -62,7 +62,7 @@ public class TaskManager {
     public Task removeTask(int i) {
         assert i >= 0 && i < taskList.size() : "Index out of bounds";
         Task removedTask = taskList.remove(i);
-        storage.saveTasks(taskList); //Autosave after every task add
+        storage.saveTasks(taskList);
         return removedTask;
     }
 

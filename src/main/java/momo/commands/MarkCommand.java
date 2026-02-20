@@ -38,7 +38,7 @@ public class MarkCommand extends Command {
 
         Task task = taskManager.getTask(index);
         task.setComplete();
-        taskManager.save(); //Must save as getTask() and setComplete() does not auto save
+        taskManager.save();
 
         ui.showMarkTask(task);
         return false;

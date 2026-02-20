@@ -8,6 +8,7 @@ package momo.tasks;
  * </p>
  */
 public class Todo extends Task {
+    private static final String TASK_SYMBOL = "T";
 
     /**
      * Constructs a new todo task
@@ -27,7 +28,7 @@ public class Todo extends Task {
      */
     @Override
     public String toStorageString() {
-        return ("T" + super.toStorageString());
+        return (TASK_SYMBOL + super.toStorageString());
     }
 
     /**
@@ -38,6 +39,6 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
-        return ("[T]" + super.toString());
+        return ("[" + TASK_SYMBOL + "]" + super.toString());
     }
 }

@@ -69,7 +69,7 @@ public class Momo {
      * Initializes the CLI {@link Ui} and starts the main controller loop.
      * </p>
      *
-     * @param args Command-line arguments (unused).
+     * @param args Command-line arguments.
      */
     public static void main(String[] args) {
         Ui ui = new Ui();

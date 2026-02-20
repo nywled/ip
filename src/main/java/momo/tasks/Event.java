@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
  * </p>
  */
 public class Event extends Task {
+    private static final String TASK_SYMBOL = "E";
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -40,7 +42,8 @@ public class Event extends Task {
      */
     @Override
     public String toStorageString() {
-        return ("E" + super.toStorageString() + "|" + this.startDate.toString() + "|" + this.endDate.toString());
+        return (TASK_SYMBOL + super.toStorageString() + "|"
+                + this.startDate.toString() + "|" + this.endDate.toString());
     }
 
     /**
@@ -68,6 +71,7 @@ public class Event extends Task {
         } else {
             formattedEnd = this.endDate.format(dateTimePattern);
         }
-        return ("[E]" + super.toString() + " (from: " + formattedStart + " to: " + formattedEnd + ")");
+        return ("[" + TASK_SYMBOL + "]" + super.toString()
+                + " (from: " + formattedStart + " to: " + formattedEnd + ")");
     }
 }

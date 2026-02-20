@@ -40,7 +40,7 @@ public class UntagCommand extends Command {
 
         Task task = taskManager.getTask(index);
         task.removeTag(tag);
-        taskManager.save(); //Must save as getTask() and setComplete() does not auto save
+        taskManager.save();
 
         ui.showTagRemoved(task);
         return false;

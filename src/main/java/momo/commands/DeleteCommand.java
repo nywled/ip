@@ -37,7 +37,7 @@ public class DeleteCommand extends Command {
         }
 
         Task removedTask = taskManager.removeTask(index);
-        taskManager.save(); //MUST SAVE as task manager removeTask does not auto save
+        taskManager.save(); //task manager removeTask does not auto save
 
         ui.showDeleteTask(removedTask, taskManager.getTaskListSize());
         return false;

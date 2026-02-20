@@ -47,8 +47,7 @@ public class TagCommand extends Command {
         } else {
             task.addTag(tag);
         }
-        taskManager.save(); //Must save as getTask() and setComplete() does not auto save
-
+        taskManager.save();
         ui.showTagAdded(task);
         return false;
     }

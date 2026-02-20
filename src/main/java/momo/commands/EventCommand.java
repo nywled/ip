@@ -51,7 +51,7 @@ public class EventCommand extends Command {
         }
 
         Task task = new Event(title, startDate, endDate);
-        taskManager.addTask(task); // autosaves inside TaskManager
+        taskManager.addTask(task);
         ui.displayAddedTask(task, taskManager.getTaskListSize());
 
         return false;

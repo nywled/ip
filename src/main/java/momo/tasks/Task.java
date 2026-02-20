@@ -35,11 +35,11 @@ public class Task {
         assert !title.isBlank() : "title must not be blank";
         this.title = title;
         this.isComplete = false;
-        tags = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 
     public String getStatusIcon() {
-        return (isComplete ? COMPLETE_SYMBOL : INCOMPLETE_SYMBOL);
+        return (this.isComplete ? COMPLETE_SYMBOL : INCOMPLETE_SYMBOL);
     }
 
     /**
@@ -102,7 +102,7 @@ public class Task {
      * @return A string representation suitable for saving to storage.
      */
     public String toStorageString() {
-        int status = isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
+        int status = this.isComplete ? COMPLETE_STATUS : INCOMPLETE_STATUS;
         String safeTitle = escapeField(this.title);
 
         String safeTags = tags.stream()
