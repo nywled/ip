@@ -46,6 +46,8 @@ public class MainWindow extends AnchorPane {
      */
     public void setMomo(Momo m) {
         momo = m;
+        String welcome = momo.getWelcome();
+        dialogContainer.getChildren().add(DialogBox.getMomoDialog(welcome, momoImage));
     }
 
     /**

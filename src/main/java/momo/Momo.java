@@ -63,6 +63,12 @@ public class Momo {
         return this.isExit;
     }
 
+    public String getWelcome() {
+        gui.clear();
+        gui.showWelcome();
+        return gui.getOutput();
+    }
+
     /**
      * Command-line interface entry point for legacy use.
      * <p>
