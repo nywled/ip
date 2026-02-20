@@ -216,10 +216,10 @@ Bye ^-^ . Let's play again another time!
 
 # Data Storage
 * Momo automatically saves all tasks to a local storage file.
-  * This file can be located at `data/tasks.txt` (created in the same directory as momo.jar)
+  * This file can be located at `data/momoTasks.txt` (created in the same directory as momo.jar)
 * The storage file is created automatically upon first run.
 
 **IMPORTANT NOTE:**
 * Editing the storage file manually is not recommended.
 * Invalid or corrupted entries may cause loading errors.
-* If Momo is unable to launch due to corrupted data, delete `tasks.txt` and re-run the program
+* If Momo is unable to launch due to corrupted data, delete `momoTasks.txt` and re-run the program
