@@ -43,59 +43,47 @@ public class Parser {
      * @throws InvalidDateTimeException If a date/time argument does not match the expected format.
      */
     public Command parse(String cmd) throws MomoException {
-        //Handle empty input
-        if (cmd == null || cmd.trim().length() == 0) {
+        if (cmd == null || cmd.trim().length() == 0) { //Handle empty input
             throw new InvalidCommandException();
         }
 
-        //Split the command up to extract main word
-        String[] cmdTokens = cmd.trim().split("\\s+");
+        String[] cmdTokens = cmd.trim().split("\\s+"); //Split the command up to extract main word
         String trimmed = cmd.trim();
 
-        //Enum matching
-        CommandType type;
-        try {
-            type = CommandType.valueOf(cmdTokens[0].toUpperCase());
-        } catch (IllegalArgumentException err) {
-            throw new InvalidCommandException();
-        }
+        CommandType type = matchEnum(cmdTokens[0]); //Enum matching
 
         switch(type) {
-        //LIST
         case LIST:
             return parseListCommand(cmdTokens);
-        //MARK
         case MARK:
             return parseMarkCommand(cmdTokens);
-        //UNMARK
         case UNMARK:
             return parseUnmarkCommand(cmdTokens);
-        //DELETE
         case DELETE:
             return parseDeleteCommand(cmdTokens);
-        //BYE
         case BYE:
             return parseByeCommand(cmdTokens);
-        //TODo
         case TODO:
             return parseTodoCommand(trimmed, cmdTokens);
-        //DEADLINE
         case DEADLINE:
             return parseDeadlineCommand(trimmed);
-        //EVENT
         case EVENT:
             return parseEventCommand(trimmed);
-        //FIND
         case FIND:
             return parseFindCommand(trimmed, cmdTokens);
-        //TAG
         case TAG:
             return parseTagCommand(cmdTokens);
-        //UNTAG
         case UNTAG:
             return parseUntagCommand(cmdTokens);
-        //DEFAULT
         default:
+            throw new InvalidCommandException();
+        }
+    }
+
+    private CommandType matchEnum(String commandWord) throws InvalidCommandException {
+        try {
+            return CommandType.valueOf(commandWord.toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new InvalidCommandException();
         }
     }
