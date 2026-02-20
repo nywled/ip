@@ -27,7 +27,7 @@ import momo.tasks.Todo;
  * </p>
  */
 public class Storage implements StorageService {
-    private static final String STORAGE_PATH = "./data/tasks.txt";
+    private static final String STORAGE_PATH = "./data/MomoTasks.txt";
     private static final String ESC_PIPE = "%7C";
     private static final String ESC_COMMA = "%2C";
     private static final String ESC_BACKSLASH = "%5C";
@@ -68,6 +68,7 @@ public class Storage implements StorageService {
     public ArrayList<Task> loadTasks() {
         File file = new File(filePath);
         ArrayList<Task> taskList = new ArrayList<>();
+        boolean toReset = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -76,12 +77,31 @@ public class Storage implements StorageService {
                 if (line.isEmpty()) {
                     continue;
                 }
+
                 taskList.add(parseTask(line));
             }
-        } catch (IOException err) {
-            throw new StorageException("Failed to load storage file. Delete storage file and run the program again");
+        } catch (IOException | StorageException err) {
+            toReset = true; //Recreate the file
         }
+
+        if (toReset) {
+            return resetStorageFile(file);
+        }
+
         return taskList;
+    }
+
+    private ArrayList<Task> resetStorageFile(File file) {
+        // Explicitly delete corrupted file
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (!deleted) {
+                throw new StorageException("Failed to delete corrupted storage file.");
+            }
+        }
+
+        createFile(file);
+        return new ArrayList<>();
     }
 
     /**
