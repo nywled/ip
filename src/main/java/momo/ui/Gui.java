@@ -137,7 +137,7 @@ public class Gui extends Ui {
             appendLine("No matching task found");
         } else {
             for (int i = 0; i < found.size(); i++) {
-                appendLine((i + 1) + "." + found.get(i).toString());
+                appendLine("-" + found.get(i).toString());
             }
         }
     }
