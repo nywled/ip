@@ -11,10 +11,13 @@ import momo.commands.DeadlineCommand;
 import momo.commands.DeleteCommand;
 import momo.commands.EventCommand;
 import momo.commands.ExitCommand;
+import momo.commands.FindCommand;
 import momo.commands.ListCommand;
 import momo.commands.MarkCommand;
+import momo.commands.TagCommand;
 import momo.commands.TodoCommand;
 import momo.commands.UnmarkCommand;
+import momo.commands.UntagCommand;
 import momo.exceptions.InvalidArgumentException;
 import momo.exceptions.InvalidCommandException;
 import momo.exceptions.InvalidDateTimeException;
@@ -54,6 +57,12 @@ public class ParserTest {
     public void parse_list_returnsListCommand() throws MomoException {
         Command c = parser.parse("list");
         assertTrue(c instanceof ListCommand, "Expected ListCommand for input: list");
+    }
+
+    @Test
+    public void parse_listWithExtraSpaces_returnsListCommand() throws MomoException {
+        Command c = parser.parse("   list     ");
+        assertTrue(c instanceof ListCommand, "Expected ListCommand for input with extra spaces");
     }
 
     //Invalid input
@@ -185,6 +194,16 @@ public class ParserTest {
                 "Expected InvalidArgumentException when deadline task is empty");
     }
 
+    @Test
+    public void parse_deadlineNoTitleButHasBy_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("deadline /by 2026-02-01"));
+    }
+
+    @Test
+    public void parse_deadlineWrongDelimiterSpacing_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("deadline task/by 2026-02-01"));
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("deadline task /by2026-02-01"));
+    }
 
     @Test
     public void parse_deadlineInvalidDate_throwsInvalidDateTime() {
@@ -233,6 +252,20 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_eventNoTitleButHasFromTo_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () ->
+                parser.parse("event /from 2026-02-01 0900 /to 2026-02-01 1100"));
+    }
+
+    @Test
+    public void parse_eventWrongDelimiterSpacing_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () ->
+                parser.parse("event party/from 2026-02-01 /to 2026-02-02"));
+        assertThrows(InvalidArgumentException.class, () ->
+                parser.parse("event party /from 2026-02-01/to 2026-02-02"));
+    }
+
+    @Test
     public void parse_eventMissingFromTo_throwsInvalidArgument() {
         assertThrows(InvalidArgumentException.class, () -> parser.parse("event party"),
                 "Expected InvalidArgumentException when event is missing /from and /to");
@@ -261,5 +294,146 @@ public class ParserTest {
         assertThrows(InvalidDateTimeException.class, () ->
                 parser.parse("event party /from 2026/02/01 0900 /to 2026-02-01 1100"),
                 "Expected InvalidDateTimeException for wrong event date format");
+    }
+
+    //-------FIND-------
+    // Valid input
+    @Test
+    public void parse_findKeyword_returnsFindCommand() throws MomoException {
+        Command c = parser.parse("find book");
+        assertTrue(c instanceof FindCommand, "Expected FindCommand for input: find book");
+    }
+
+    @Test
+    public void parse_findKeywordWithSpaces_returnsFindCommand() throws MomoException {
+        Command c = parser.parse("find read book");
+        assertTrue(c instanceof FindCommand, "Expected FindCommand for input: find read book");
+    }
+
+    @Test
+    public void parse_findTag_returnsFindCommand() throws MomoException {
+        Command c = parser.parse("find #school");
+        assertTrue(c instanceof FindCommand, "Expected FindCommand for input: find #school");
+    }
+
+    @Test
+    public void parse_findTagWithSpaces_returnsFindCommand() throws MomoException {
+        Command c = parser.parse("find #very Important Tag");
+        assertTrue(c instanceof FindCommand, "Expected FindCommand for input: find #very Important Tag");
+    }
+
+    // Invalid input
+    @Test
+    public void parse_findMissingKeyword_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("find"),
+                "Expected InvalidArgumentException when find has missing keyword");
+    }
+
+    @Test
+    public void parse_findBlankKeyword_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("find     "),
+                "Expected InvalidArgumentException when find keyword is blank");
+    }
+
+    @Test
+    public void parse_findHashOnly_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("find #"),
+                "Expected InvalidArgumentException when find tag is missing");
+    }
+
+    @Test
+    public void parse_findHashThenSpaces_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("find #     "),
+                "Expected InvalidArgumentException when find tag is blank");
+    }
+
+    //-------TAG-------
+    // Valid input
+    @Test
+    public void parse_tagValid_returnsTagCommand() throws MomoException {
+        Command c = parser.parse("tag 1 school");
+        assertTrue(c instanceof TagCommand, "Expected TagCommand for input: tag 1 school");
+    }
+
+    @Test
+    public void parse_tagMultipleTags_returnsTagCommand() throws MomoException {
+        Command c = parser.parse("tag 2 work,urgent,cs");
+        assertTrue(c instanceof TagCommand, "Expected TagCommand for input: tag 2 work,urgent,cs");
+    }
+
+    @Test
+    public void parse_tagWithExtraSpaces_returnsTagCommand() throws MomoException {
+        Command c = parser.parse("   tag   2   work,urgent   ");
+        assertTrue(c instanceof TagCommand);
+    }
+
+    // Invalid input
+    @Test
+    public void parse_tagMissingArgs_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag"),
+                "Expected InvalidArgumentException when tag has missing args");
+    }
+
+    @Test
+    public void parse_tagMissingTag_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag 1"),
+                "Expected InvalidArgumentException when tag is missing");
+    }
+
+    @Test
+    public void parse_tagExtraArgs_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag 1 a b"),
+                "Expected InvalidArgumentException when tag has extra args (parser expects exactly 3 tokens)");
+    }
+
+    @Test
+    public void parse_tagMultipleTagsWithSpace_returnsTagCommand() throws MomoException {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag 2 work, urgent, cs"),
+                "Expected InvalidArgumentException when multiple tags have space (parser expects no spaces)");
+    }
+
+    @Test
+    public void parse_tagNonIntegerIndex_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag one school"),
+                "Expected InvalidArgumentException when tag index is not an integer");
+    }
+
+    @Test
+    public void parse_tagBlankTagToken_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("tag 1     "),
+                "Expected InvalidArgumentException when tag token is blank/missing");
+    }
+
+    //-------UNTAG-------
+    // Valid input
+    @Test
+    public void parse_untagValid_returnsUntagCommand() throws MomoException {
+        Command c = parser.parse("untag 1 school");
+        assertTrue(c instanceof UntagCommand, "Expected UntagCommand for input: untag 1 school");
+    }
+
+    // Invalid input
+    @Test
+    public void parse_untagMissingArgs_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("untag"),
+                "Expected InvalidArgumentException when untag has missing args");
+    }
+
+    @Test
+    public void parse_untagMissingTag_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("untag 1"),
+                "Expected InvalidArgumentException when untag tag is missing");
+    }
+
+    @Test
+    public void parse_untagExtraArgs_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("untag 1 a b"),
+                "Expected InvalidArgumentException when untag has extra args (parser expects exactly 3 tokens)");
+    }
+
+    @Test
+    public void parse_untagNonIntegerIndex_throwsInvalidArgument() {
+        assertThrows(InvalidArgumentException.class, () -> parser.parse("untag one school"),
+                "Expected InvalidArgumentException when untag index is not an integer");
     }
 }
